@@ -1,8 +1,38 @@
 local fonte
-local imagem
+local background_fiap
+local kaede_chan
+local mc
+
+local dialogueBoxSimple1 = require("common.dialogue_box_simple_1")
+
+local dialogos = {
+    { nome = "Kaede", texto = "Olá" },
+    { nome = "Kaede", texto = "Esse é seu primeiro dia de aula não é mesmo?" },
+    { nome = "Kaede", texto = "Eu serei sua professora e irei te ensinar a arte de pegar waifus" },
+    { nome = "???", texto = "Obrigado, Kaede-sensei" },
+    { nome = "???", texto = "Seguirei a risca tudo que me ensinar" },
+    { nome = "Kaede", texto = "Muito bem, meu caro" },
+    { nome = "Kaede", texto = "Agora me diga, por que você se interessou em entrar para o clube?" },
+    { nome = "Kaede", texto = "Ah sim kkkk" }
+}
+
+-- opções do menu
+local opcoesMenu = {
+    "Quero aprender a conquistar waifus!",
+    "Preciso de dicas para conversar com garotas.",
+    "Estou nervoso, me ajude a relaxar."
+}
+local opcaoSelecionada = 1 -- Índice da opção selecionada
+local exibirMenu = false   -- Controla se o menu deve ser exibido
+local dialogoPosMenu = nil -- Armazena o diálogo após a seleção da opção
+
+
+local indice = 1
 
 function love.load()
-    imagem = love.graphics.newImage("girl2.png")
+    background_fiap = love.graphics.newImage("assets/background_fiap.png")
+    kaede_chan = love.graphics.newImage("assets/girl21.png")
+    mc = love.graphics.newImage("assets/boy1.png")
     fonte = love.graphics.newFont(24)
 end
 
@@ -10,50 +40,100 @@ function love.draw()
     local largura_tela = love.graphics.getWidth()
     local altura_tela = love.graphics.getHeight()
 
-    local largura_image = imagem:getWidth()
-    local altura_image = imagem:getHeight()
+    local largura_img = background_fiap:getWidth()
+    local altura_img = background_fiap:getHeight()
 
-    local x = (largura_tela - largura_image) / 2
-    local y = (altura_tela - altura_image) / 2
-
-    -- fundo
-    love.graphics.draw(imagem, x, y)
-
-    local boxX = 40
-    local boxY = altura_tela - 170
-    local boxW = largura_tela - 80
-    local boxH = 130
-
-    -- sombra leve
-    love.graphics.setColor(0, 0, 0, 0.2)
-    love.graphics.rectangle("fill", boxX+3, boxY+3, boxW, boxH, 8, 8)
-
-    -- caixa branca
-    love.graphics.setColor(1, 1, 1, 0.95)
-    love.graphics.rectangle("fill", boxX, boxY, boxW, boxH, 8, 8)
-
-    -- borda
-    love.graphics.setColor(0.7, 0.7, 0.7)
-    love.graphics.rectangle("line", boxX, boxY, boxW, boxH, 8, 8)
-
-    -- name plate (roxo)
-    love.graphics.setColor(0.6, 0.3, 0.8)
-    love.graphics.rectangle("fill", boxX + 10, boxY - 30, 180, 30, 6, 6)
-
-    -- nome
-    love.graphics.setFont(fonte)
-    love.graphics.setColor(1,1,1)
-    love.graphics.print("Kaede", boxX + 20, boxY - 25)
-
-    -- texto
-    love.graphics.setFont(fonte)
-    love.graphics.setColor(0,0,0)
-    love.graphics.printf(
-        "Thandy, Pedro e Guilherme são muito fodas",
-        boxX + 20,
-        boxY + 20,
-        boxW - 40
+    local escala = math.max(
+        largura_tela / largura_img,
+        altura_tela / altura_img
     )
 
-    love.graphics.setColor(1,1,1)
+    local nova_largura = largura_img * escala
+    local nova_altura = altura_img * escala
+
+    local offset_x = (largura_tela - nova_largura) / 2
+    local offset_y = (altura_tela - nova_altura) / 2
+
+    love.graphics.draw(background_fiap, offset_x, offset_y, 0, escala, escala)
+
+    love.graphics.draw(kaede_chan, 900, 10)
+
+    dialogueBoxSimple1.drawDialogueBox(fonte, 40, altura_tela - 170, largura_tela - 80, 130,
+        dialogos[indice].nome,
+        dialogos[indice].texto
+    )
+
+    if dialogos[indice].nome == "???" then
+        love.graphics.setColor(1, 1, 1)
+
+        love.graphics.draw(mc, 100, 10)
+
+        dialogueBoxSimple1.drawDialogueBox(fonte, 40, altura_tela - 170, largura_tela - 80, 130,
+            dialogos[indice].nome,
+            dialogos[indice].texto
+        )
+    end
+
+    if indice == 7 then
+        exibirMenu = true
+    end
+
+    if exibirMenu then
+        local larguraCaixa = largura_tela - 600
+        local alturaCaixa = 160
+        local posX = 30
+        local posY = 400
+
+        love.graphics.setColor(0, 0, 0, 0.7)
+        love.graphics.rectangle("fill", posX, posY, larguraCaixa, alturaCaixa)
+        love.graphics.setColor(1, 1, 1)
+
+        -- Desenha as opções do menu
+        for i, opcao in ipairs(opcoesMenu) do
+            if i == opcaoSelecionada then
+                love.graphics.setColor(1, 0, 0) -- Cor vermelha para a opção selecionada
+            else
+                love.graphics.setColor(1, 1, 1) -- Cor branca para as outras opções
+            end
+            love.graphics.print(opcao, posX + 20, posY + 20 + (i - 1) * 40)
+        end
+    end
+
+    love.graphics.setColor(1, 1, 1)
+end
+
+function love.keypressed(key)
+    if key == "r" then
+        love.event.quit("restart")
+    end
+
+    if exibirMenu then
+        -- Navegação no menu
+        if key == "up" then
+            opcaoSelecionada = opcaoSelecionada - 1
+            if opcaoSelecionada < 1 then
+                opcaoSelecionada = #opcoesMenu
+            end
+        elseif key == "down" then
+            opcaoSelecionada = opcaoSelecionada + 1
+            if opcaoSelecionada > #opcoesMenu then
+                opcaoSelecionada = 1
+            end
+        elseif key == "space" then
+            -- Ação ao selecionar uma opção
+            print("Opção selecionada: " .. opcoesMenu[opcaoSelecionada])
+            dialogoPosMenu = "Ah sim, então você " .. string.lower(opcoesMenu[opcaoSelecionada])
+            -- Aqui você pode adicionar lógica para lidar com a escolha do usuário
+            exibirMenu = false -- Fecha o menu após a seleção
+        end
+    else
+        if key == "space" then
+            indice = indice + 1
+
+            -- evita passar do último diálogo
+            if indice > #dialogos then
+                indice = #dialogos
+            end
+        end
+    end
 end
