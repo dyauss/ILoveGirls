@@ -10,10 +10,12 @@ local dialogos = {
     { nome = "Kaede", texto = "Esse é seu primeiro dia de aula não é mesmo?" },
     { nome = "Kaede", texto = "Eu serei sua professora e irei te ensinar a arte de pegar waifus" },
     { nome = "???", texto = "Obrigado, Kaede-sensei" },
-    { nome = "???", texto = "Seguirei a risca tudo que me ensinar" },
+    { nome = "???",   texto = "Seguirei a risca tudo que me ensinar" },
     { nome = "Kaede", texto = "Muito bem, meu caro" },
     { nome = "Kaede", texto = "Agora me diga, por que você se interessou em entrar para o clube?" },
-    { nome = "Kaede", texto = "Ah sim kkkk" }
+    -- opções do menu 1 + resposta Kaede
+    { nome = "Iroha Tachibana", texto = "Olá" },
+    { nome = "Iroha Tachibana", texto = "Do que estão falando aí?" }
 }
 
 -- opções do menu
@@ -33,6 +35,7 @@ function love.load()
     background_fiap = love.graphics.newImage("assets/background_fiap.png")
     kaede_chan = love.graphics.newImage("assets/girl21.png")
     mc = love.graphics.newImage("assets/boy1.png")
+    iroha_tachibana = love.graphics.newImage("assets/IrohaTachibana.png")
     fonte = love.graphics.newFont(24)
 end
 
@@ -67,6 +70,17 @@ function love.draw()
         love.graphics.setColor(1, 1, 1)
 
         love.graphics.draw(mc, 100, 10)
+
+        dialogueBoxSimple1.drawDialogueBox(fonte, 40, altura_tela - 170, largura_tela - 80, 130,
+            dialogos[indice].nome,
+            dialogos[indice].texto
+        )
+    end
+
+    if dialogos[indice].nome == "Iroha Tachibana" then
+        love.graphics.setColor(1, 1, 1)
+
+        love.graphics.draw(iroha_tachibana, 0, 80)
 
         dialogueBoxSimple1.drawDialogueBox(fonte, 40, altura_tela - 170, largura_tela - 80, 130,
             dialogos[indice].nome,
@@ -120,11 +134,33 @@ function love.keypressed(key)
                 opcaoSelecionada = 1
             end
         elseif key == "space" then
-            -- Ação ao selecionar uma opção
-            print("Opção selecionada: " .. opcoesMenu[opcaoSelecionada])
-            dialogoPosMenu = "Ah sim, então você " .. string.lower(opcoesMenu[opcaoSelecionada])
-            -- Aqui você pode adicionar lógica para lidar com a escolha do usuário
-            exibirMenu = false -- Fecha o menu após a seleção
+            local resposta
+
+            if opcaoSelecionada == 1 then
+                resposta = "Então esse ano você vai pegar geral"
+                table.insert(dialogos, indice + 1, {
+                    nome = "Kaede",
+                    texto = resposta
+                })
+                indice = indice + 1
+                exibirMenu = false
+            elseif opcaoSelecionada == 2 then
+                resposta = "Ah, então você não consegue falar com mulher sem tremer? Fracassado..."
+                table.insert(dialogos, indice + 1, {
+                    nome = "Kaede",
+                    texto = resposta
+                })
+                indice = indice + 1
+                exibirMenu = false
+            elseif opcaoSelecionada == 3 then
+                resposta = "Como assim, não entendi?"
+                table.insert(dialogos, indice + 1, {
+                    nome = "Kaede",
+                    texto = resposta
+                })
+                indice = indice + 1
+                exibirMenu = false
+            end
         end
     else
         if key == "space" then
