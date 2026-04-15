@@ -15,7 +15,9 @@ local dialogos = {
     { nome = "Kaede", texto = "Agora me diga, por que você se interessou em entrar para o clube?" },
     -- opções do menu 1 + resposta Kaede
     { nome = "Iroha Tachibana", texto = "Olá" },
-    { nome = "Iroha Tachibana", texto = "Do que estão falando aí?" }
+    { nome = "Iroha Tachibana", texto = "Do que estão falando aí?" },
+    { nome = "???",             texto = "Caralho, como você é gata :O" },
+    { nome = "Iroha Tachibana", texto = "É uma pena que eu não possa dizer o mesmo de você" }
 }
 
 -- opções do menu
@@ -28,40 +30,77 @@ local opcaoSelecionada = 1 -- Índice da opção selecionada
 local exibirMenu = false   -- Controla se o menu deve ser exibido
 local dialogoPosMenu = nil -- Armazena o diálogo após a seleção da opção
 
-
 local indice = 1
 
 function love.load()
+    -- load all the assets
     background_fiap = love.graphics.newImage("assets/background_fiap.png")
     kaede_chan = love.graphics.newImage("assets/girl21.png")
     mc = love.graphics.newImage("assets/boy1.png")
     iroha_tachibana = love.graphics.newImage("assets/IrohaTachibana.png")
+
     fonte = love.graphics.newFont(24)
 end
 
-function love.draw()
-    local largura_tela = love.graphics.getWidth()
-    local altura_tela = love.graphics.getHeight()
+-- Função para calcular posição responsiva à esquerda da tela
+local function getLeftPosition(image, user_screen_width, user_screen_height)
+    local img_width = image:getWidth()
+    local img_height = image:getHeight()
 
-    local largura_img = background_fiap:getWidth()
-    local altura_img = background_fiap:getHeight()
+    -- Escala do personagem baseada na altura da tela (ajuste o fator conforme necessário)
+    local escala_personagem = (user_screen_height * 0.8) / img_height
+
+    -- Posição X: margem de 5% da largura da tela
+    local pos_x = user_screen_width * 0.05
+
+    -- Posição Y: alinhado ao fundo da tela, com pequena margem
+    local pos_y = user_screen_height - (img_height * escala_personagem) - (user_screen_height * 0.15)
+
+    return pos_x, pos_y, escala_personagem
+end
+
+-- Função para calcular posição responsiva à direita da tela
+local function getRightPosition(image, user_screen_width, user_screen_height)
+    local img_width = image:getWidth()
+    local img_height = image:getHeight()
+
+    -- Escala do personagem baseada na altura da tela
+    local escala_personagem = (user_screen_height * 0.8) / img_height
+
+    -- Posição X: alinhado à direita com margem de 5%
+    local pos_x = user_screen_width - (img_width * escala_personagem) - (user_screen_width * 0.05)
+
+    -- Posição Y: alinhado ao fundo da tela, com pequena margem
+    local pos_y = user_screen_height - (img_height * escala_personagem) - (user_screen_height * 0.15)
+
+    return pos_x, pos_y, escala_personagem
+end
+
+function love.draw()
+    local user_screen_width = love.graphics.getWidth()
+    local user_screen_height = love.graphics.getHeight()
+
+    local background_width = background_fiap:getWidth()
+    local background_height = background_fiap:getHeight()
 
     local escala = math.max(
-        largura_tela / largura_img,
-        altura_tela / altura_img
+        user_screen_width / background_width,
+        user_screen_height / background_height
     )
 
-    local nova_largura = largura_img * escala
-    local nova_altura = altura_img * escala
+    local nova_largura = background_width * escala
+    local nova_altura = background_height * escala
 
-    local offset_x = (largura_tela - nova_largura) / 2
-    local offset_y = (altura_tela - nova_altura) / 2
+    local offset_x = (user_screen_width - nova_largura) / 2
+    local offset_y = (user_screen_height - nova_altura) / 2
 
     love.graphics.draw(background_fiap, offset_x, offset_y, 0, escala, escala)
 
-    love.graphics.draw(kaede_chan, 900, 10)
+    -- Posição responsiva para Kaede (à direita)
+    local kaede_x, kaede_y, kaede_escala = getRightPosition(kaede_chan, user_screen_width, user_screen_height)
+    love.graphics.draw(kaede_chan, kaede_x, kaede_y, 0, kaede_escala, kaede_escala)
 
-    dialogueBoxSimple1.drawDialogueBox(fonte, 40, altura_tela - 170, largura_tela - 80, 130,
+    dialogueBoxSimple1.drawDialogueBox(fonte, 40, user_screen_height - 170, user_screen_width - 80, 130,
         dialogos[indice].nome,
         dialogos[indice].texto
     )
@@ -69,9 +108,11 @@ function love.draw()
     if dialogos[indice].nome == "???" then
         love.graphics.setColor(1, 1, 1)
 
-        love.graphics.draw(mc, 100, 10)
+        -- Posição responsiva para MC (à esquerda)
+        local mc_x, mc_y, mc_escala = getLeftPosition(mc, user_screen_width, user_screen_height)
+        love.graphics.draw(mc, mc_x, mc_y, 0, mc_escala, mc_escala)
 
-        dialogueBoxSimple1.drawDialogueBox(fonte, 40, altura_tela - 170, largura_tela - 80, 130,
+        dialogueBoxSimple1.drawDialogueBox(fonte, 40, user_screen_height - 170, user_screen_width - 80, 130,
             dialogos[indice].nome,
             dialogos[indice].texto
         )
@@ -80,9 +121,11 @@ function love.draw()
     if dialogos[indice].nome == "Iroha Tachibana" then
         love.graphics.setColor(1, 1, 1)
 
-        love.graphics.draw(iroha_tachibana, 0, 80)
+        -- Posição responsiva para Iroha (à esquerda)
+        local iroha_x, iroha_y, iroha_escala = getLeftPosition(iroha_tachibana, user_screen_width, user_screen_height)
+        love.graphics.draw(iroha_tachibana, iroha_x, iroha_y, 0, iroha_escala, iroha_escala)
 
-        dialogueBoxSimple1.drawDialogueBox(fonte, 40, altura_tela - 170, largura_tela - 80, 130,
+        dialogueBoxSimple1.drawDialogueBox(fonte, 40, user_screen_height - 170, user_screen_width - 80, 130,
             dialogos[indice].nome,
             dialogos[indice].texto
         )
@@ -93,10 +136,10 @@ function love.draw()
     end
 
     if exibirMenu then
-        local larguraCaixa = largura_tela - 600
+        local larguraCaixa = user_screen_width - 600
         local alturaCaixa = 160
         local posX = 30
-        local posY = 400
+        local posY = user_screen_height * 0.4 -- Posição responsiva para o menu
 
         love.graphics.setColor(0, 0, 0, 0.7)
         love.graphics.rectangle("fill", posX, posY, larguraCaixa, alturaCaixa)
@@ -134,33 +177,24 @@ function love.keypressed(key)
                 opcaoSelecionada = 1
             end
         elseif key == "space" then
-            local resposta
+            local opcaoTexto = string.lower(opcoesMenu[opcaoSelecionada])
+            local respostaEspecifica
 
             if opcaoSelecionada == 1 then
-                resposta = "Então esse ano você vai pegar geral"
-                table.insert(dialogos, indice + 1, {
-                    nome = "Kaede",
-                    texto = resposta
-                })
-                indice = indice + 1
-                exibirMenu = false
+                respostaEspecifica = "Então esse ano você vai pegar geral"
             elseif opcaoSelecionada == 2 then
-                resposta = "Ah, então você não consegue falar com mulher sem tremer? Fracassado..."
-                table.insert(dialogos, indice + 1, {
-                    nome = "Kaede",
-                    texto = resposta
-                })
-                indice = indice + 1
-                exibirMenu = false
+                respostaEspecifica = "Ah, então você não consegue falar com mulher sem tremer? Fracassado..."
             elseif opcaoSelecionada == 3 then
-                resposta = "Como assim, não entendi?"
-                table.insert(dialogos, indice + 1, {
-                    nome = "Kaede",
-                    texto = resposta
-                })
-                indice = indice + 1
-                exibirMenu = false
+                respostaEspecifica = "Como assim, não entendi?"
             end
+
+            table.insert(dialogos, indice + 1, {
+                nome = "Kaede",
+                texto = respostaEspecifica
+            })
+
+            indice = indice + 1
+            exibirMenu = false
         end
     else
         if key == "space" then
