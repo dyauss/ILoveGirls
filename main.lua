@@ -18,43 +18,49 @@ local dialogos = {
     { nome = "Iroha Tachibana", texto = "Do que estão falando aí?" },
     { nome = "???",             texto = "Caralho, como você é gata :O" },
     { nome = "Iroha Tachibana", texto = "É uma pena que eu não possa dizer o mesmo de você" },
+    { nome = "Iroha Tachibana", texto = "Ei você aí, fracassado!" },
+    { nome = "Iroha Tachibana", texto = "Qual seu Persona favorito?" },
     -- interacao_2
+    { nome = "???", texto = "Meu Deus, essa é a mulher da minha vida T.T" }
 }
 
--- interações simples
-local interacao_1 = {
-    "Quero aprender a conquistar waifus!",
-    "Preciso de dicas para conversar com garotas.",
-    "Estou nervoso, me ajude a relaxar."
-}
-
-local resposta_interacao_1 = {
-    "Então esse ano você vai pegar geral",
-    "Ah, então você não consegue falar com mulher sem tremer? Fracassado...",
-    "Como assim, não entendi?"
-}
-
-local interacao_2 = {
-    "Persona 1",
-    "Persona 2",
-    "Persona 3",
-    "Persona 4",
-    "Persona 5"
-}
-
-local resposta_interacao_2 = {
-    "Você é psicopata?",
-    "Maya e Tatsuya <3",
-    "Memento Mori",
-    "Everydays's great at your Junes~",
-    "Morgana é um lixo"
+-- Sistema de interações
+local interacoes = {
+    [7] = { -- índice do diálogo onde a interação aparece
+        nome_personagem = "Kaede",
+        opcoes = {
+            "Quero aprender a conquistar waifus!",
+            "Preciso de dicas para conversar com garotas.",
+            "Estou nervoso, me ajude a relaxar."
+        },
+        respostas = {
+            "Então esse ano você vai pegar geral",
+            "Ah, então você não consegue falar com mulher sem tremer? Fracassado...",
+            "Como assim, não entendi?"
+        }
+    },
+    [14] = { -- índice do diálogo onde a segunda interação aparece
+        nome_personagem = "Iroha Tachibana",
+        opcoes = {
+            "Persona 1",
+            "Persona 2",
+            "Persona 3",
+            "Persona 4",
+            "Persona 5"
+        },
+        respostas = {
+            "Você é psicopata?",
+            "Maya e Tatsuya <3",
+            "Memento Mori",
+            "Everydays's great at your Junes~",
+            "Morgana é um lixo"
+        }
+    }
 }
 
 local opcaoSelecionada = 1 -- Índice da opção selecionada
-local interacao_2_opcao = 1
-
 local exibirMenu = false   -- Controla se o menu deve ser exibido
-local dialogoPosMenu = nil -- Armazena o diálogo após a seleção da opção
+local interacaoAtual = nil -- Armazena qual interação está ativa
 
 local indice = 1
 
@@ -155,13 +161,17 @@ function love.draw()
         )
     end
 
-    if indice == 7 then
+    -- Verifica se há uma interação neste índice
+    if interacoes[indice] and not exibirMenu then
         exibirMenu = true
+        interacaoAtual = interacoes[indice]
+        opcaoSelecionada = 1 -- Reset da seleção
     end
 
-    if exibirMenu then
+    if exibirMenu and interacaoAtual then
         local larguraCaixa = user_screen_width - 600
-        local alturaCaixa = 160
+        local numOpcoes = #interacaoAtual.opcoes
+        local alturaCaixa = 60 + (numOpcoes * 40) -- Altura dinâmica baseada no número de opções
         local posX = 30
         local posY = user_screen_height * 0.4 -- Posição responsiva para o menu
 
@@ -170,7 +180,7 @@ function love.draw()
         love.graphics.setColor(1, 1, 1)
 
         -- Desenha as opções do menu
-        for i, opcao in ipairs(interacao_1) do
+        for i, opcao in ipairs(interacaoAtual.opcoes) do
             if i == opcaoSelecionada then
                 love.graphics.setColor(1, 0, 0) -- Cor vermelha para a opção selecionada
             else
@@ -188,37 +198,31 @@ function love.keypressed(key)
         love.event.quit("restart")
     end
 
-    if exibirMenu then
+    if exibirMenu and interacaoAtual then
         -- Navegação no menu
         if key == "up" then
             opcaoSelecionada = opcaoSelecionada - 1
             if opcaoSelecionada < 1 then
-                opcaoSelecionada = #interacao_1
+                opcaoSelecionada = #interacaoAtual.opcoes
             end
         elseif key == "down" then
             opcaoSelecionada = opcaoSelecionada + 1
-            if opcaoSelecionada > #interacao_1 then
+            if opcaoSelecionada > #interacaoAtual.opcoes then
                 opcaoSelecionada = 1
             end
         elseif key == "space" then
-            local opcaoTexto = string.lower(interacao_1[opcaoSelecionada])
-            local respostaEspecifica
+            -- Pega a resposta correspondente à opção selecionada
+            local respostaEspecifica = interacaoAtual.respostas[opcaoSelecionada]
 
-            if opcaoSelecionada == 1 then
-                respostaEspecifica = resposta_interacao_1[1]
-            elseif opcaoSelecionada == 2 then
-                respostaEspecifica = resposta_interacao_1[2]
-            elseif opcaoSelecionada == 3 then
-                respostaEspecifica = resposta_interacao_1[3]
-            end
-
+            -- Insere a resposta no diálogo
             table.insert(dialogos, indice + 1, {
-                nome = "Kaede",
+                nome = interacaoAtual.nome_personagem,
                 texto = respostaEspecifica
             })
 
             indice = indice + 1
             exibirMenu = false
+            interacaoAtual = nil -- Limpa a interação atual
         end
     else
         if key == "space" then
