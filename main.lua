@@ -13,20 +13,46 @@ local dialogos = {
     { nome = "???",   texto = "Seguirei a risca tudo que me ensinar" },
     { nome = "Kaede", texto = "Muito bem, meu caro" },
     { nome = "Kaede", texto = "Agora me diga, por que você se interessou em entrar para o clube?" },
-    -- opções do menu 1 + resposta Kaede
+    -- interacao_1
     { nome = "Iroha Tachibana", texto = "Olá" },
     { nome = "Iroha Tachibana", texto = "Do que estão falando aí?" },
     { nome = "???",             texto = "Caralho, como você é gata :O" },
-    { nome = "Iroha Tachibana", texto = "É uma pena que eu não possa dizer o mesmo de você" }
+    { nome = "Iroha Tachibana", texto = "É uma pena que eu não possa dizer o mesmo de você" },
+    -- interacao_2
 }
 
--- opções do menu
-local opcoesMenu = {
+-- interações simples
+local interacao_1 = {
     "Quero aprender a conquistar waifus!",
     "Preciso de dicas para conversar com garotas.",
     "Estou nervoso, me ajude a relaxar."
 }
+
+local resposta_interacao_1 = {
+    "Então esse ano você vai pegar geral",
+    "Ah, então você não consegue falar com mulher sem tremer? Fracassado...",
+    "Como assim, não entendi?"
+}
+
+local interacao_2 = {
+    "Persona 1",
+    "Persona 2",
+    "Persona 3",
+    "Persona 4",
+    "Persona 5"
+}
+
+local resposta_interacao_2 = {
+    "Você é psicopata?",
+    "Maya e Tatsuya <3",
+    "Memento Mori",
+    "Everydays's great at your Junes~",
+    "Morgana é um lixo"
+}
+
 local opcaoSelecionada = 1 -- Índice da opção selecionada
+local interacao_2_opcao = 1
+
 local exibirMenu = false   -- Controla se o menu deve ser exibido
 local dialogoPosMenu = nil -- Armazena o diálogo após a seleção da opção
 
@@ -42,7 +68,6 @@ function love.load()
     fonte = love.graphics.newFont(24)
 end
 
--- Função para calcular posição responsiva à esquerda da tela
 local function getLeftPosition(image, user_screen_width, user_screen_height)
     local img_width = image:getWidth()
     local img_height = image:getHeight()
@@ -59,7 +84,6 @@ local function getLeftPosition(image, user_screen_width, user_screen_height)
     return pos_x, pos_y, escala_personagem
 end
 
--- Função para calcular posição responsiva à direita da tela
 local function getRightPosition(image, user_screen_width, user_screen_height)
     local img_width = image:getWidth()
     local img_height = image:getHeight()
@@ -146,7 +170,7 @@ function love.draw()
         love.graphics.setColor(1, 1, 1)
 
         -- Desenha as opções do menu
-        for i, opcao in ipairs(opcoesMenu) do
+        for i, opcao in ipairs(interacao_1) do
             if i == opcaoSelecionada then
                 love.graphics.setColor(1, 0, 0) -- Cor vermelha para a opção selecionada
             else
@@ -169,23 +193,23 @@ function love.keypressed(key)
         if key == "up" then
             opcaoSelecionada = opcaoSelecionada - 1
             if opcaoSelecionada < 1 then
-                opcaoSelecionada = #opcoesMenu
+                opcaoSelecionada = #interacao_1
             end
         elseif key == "down" then
             opcaoSelecionada = opcaoSelecionada + 1
-            if opcaoSelecionada > #opcoesMenu then
+            if opcaoSelecionada > #interacao_1 then
                 opcaoSelecionada = 1
             end
         elseif key == "space" then
-            local opcaoTexto = string.lower(opcoesMenu[opcaoSelecionada])
+            local opcaoTexto = string.lower(interacao_1[opcaoSelecionada])
             local respostaEspecifica
 
             if opcaoSelecionada == 1 then
-                respostaEspecifica = "Então esse ano você vai pegar geral"
+                respostaEspecifica = resposta_interacao_1[1]
             elseif opcaoSelecionada == 2 then
-                respostaEspecifica = "Ah, então você não consegue falar com mulher sem tremer? Fracassado..."
+                respostaEspecifica = resposta_interacao_1[2]
             elseif opcaoSelecionada == 3 then
-                respostaEspecifica = "Como assim, não entendi?"
+                respostaEspecifica = resposta_interacao_1[3]
             end
 
             table.insert(dialogos, indice + 1, {
