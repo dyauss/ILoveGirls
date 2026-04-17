@@ -1,11 +1,11 @@
 local fonte
-local background_fiap
+local bg_atual
 local kaede_chan
 local mc
 
 local dialogueBoxSimple1 = require("common.dialogue_box_simple_1")
 
-local dialogos = {
+local dialogos = { -- Conte os números de linhas de diálogo abaixo para usar no índice de menu abaixo.
     { nome = "Kaede", texto = "Olá" },
     { nome = "Kaede", texto = "Esse é seu primeiro dia de aula não é mesmo?" },
     { nome = "Kaede", texto = "Eu serei sua professora e irei te ensinar a arte de pegar waifus" },
@@ -14,14 +14,16 @@ local dialogos = {
     { nome = "Kaede", texto = "Muito bem, meu caro" },
     { nome = "Kaede", texto = "Agora me diga, por que você se interessou em entrar para o clube?" },
     -- interacao_1
-    { nome = "Iroha Tachibana", texto = "Olá" },
+    { nome = "Iroha Tachibana", texto = "Olá", bg = "terraco_escola" },
     { nome = "Iroha Tachibana", texto = "Do que estão falando aí?" },
-    { nome = "???",             texto = "Caralho, como você é gata :O" },
+    { nome = "???",             texto = "Caralho, como você é gata :O"},
     { nome = "Iroha Tachibana", texto = "É uma pena que eu não possa dizer o mesmo de você" },
     { nome = "Iroha Tachibana", texto = "Ei você aí, fracassado!" },
-    { nome = "Iroha Tachibana", texto = "Qual seu Persona favorito?" },
+    { nome = "Iroha Tachibana", texto = "Qual seu Persona favorito?"},
     -- interacao_2
-    { nome = "???", texto = "Meu Deus, essa é a mulher da minha vida T.T" }
+    { nome = "???", texto = "Meu Deus, essa é a mulher da minha vida T.T" },
+    {nome = "Iroha Tachibana", texto = "Quer ir na minha casa hoje à noite?"},
+
 }
 
 -- Sistema de interações
@@ -55,7 +57,7 @@ local interacoes = {
             "Everydays's great at your Junes~",
             "Morgana é um lixo"
         }
-    }
+    },
 }
 
 local opcaoSelecionada = 1 -- Índice da opção selecionada
@@ -66,7 +68,18 @@ local indice = 1
 
 function love.load()
     -- load all the assets
+    -- Para adicionar novos backgrounds, declare-os abaixo e também dentro de fundos. Depois chame "bg = [nome da variavel em fundos]", como bg = "fiap" lá na linha de diálogo
     background_fiap = love.graphics.newImage("assets/background_fiap.png")
+    background_terraco_escola = love.graphics.newImage("assets/terraco_escola.png")
+    background_praia = love.graphics.newImage("assets/background_praia.png")
+
+    bg_atual = background_fiap
+
+    fundos = {
+        fiap = background_fiap,
+        terraco_escola = background_terraco_escola,
+        praia = background_praia
+    }
     kaede_chan = love.graphics.newImage("assets/girl21.png")
     mc = love.graphics.newImage("assets/boy1.png")
     iroha_tachibana = love.graphics.newImage("assets/IrohaTachibana.png")
@@ -110,8 +123,8 @@ function love.draw()
     local user_screen_width = love.graphics.getWidth()
     local user_screen_height = love.graphics.getHeight()
 
-    local background_width = background_fiap:getWidth()
-    local background_height = background_fiap:getHeight()
+    local background_width = bg_atual:getWidth()
+    local background_height = bg_atual:getHeight()
 
     local escala = math.max(
         user_screen_width / background_width,
@@ -124,7 +137,7 @@ function love.draw()
     local offset_x = (user_screen_width - nova_largura) / 2
     local offset_y = (user_screen_height - nova_altura) / 2
 
-    love.graphics.draw(background_fiap, offset_x, offset_y, 0, escala, escala)
+    love.graphics.draw(bg_atual, offset_x, offset_y, 0, escala, escala)
 
     -- Posição responsiva para Kaede (à direita)
     local kaede_x, kaede_y, kaede_escala = getRightPosition(kaede_chan, user_screen_width, user_screen_height)
@@ -211,19 +224,26 @@ function love.keypressed(key)
                 opcaoSelecionada = 1
             end
         elseif key == "space" then
-            -- Pega a resposta correspondente à opção selecionada
-            local respostaEspecifica = interacaoAtual.respostas[opcaoSelecionada]
+    -- Pega a resposta correspondente à opção selecionada
+    local respostaEspecifica = interacaoAtual.respostas[opcaoSelecionada]
 
-            -- Insere a resposta no diálogo
-            table.insert(dialogos, indice + 1, {
-                nome = interacaoAtual.nome_personagem,
-                texto = respostaEspecifica
-            })
+    -- Insere a resposta no diálogo
+    table.insert(dialogos, indice + 1, {
+        nome = interacaoAtual.nome_personagem,
+        texto = respostaEspecifica
+    })
 
-            indice = indice + 1
-            exibirMenu = false
-            interacaoAtual = nil -- Limpa a interação atual
-        end
+    indice = indice + 1
+
+    -- 👇 AQUI entra a troca de background
+    local dialogoAtual = dialogos[indice]
+    if dialogoAtual.bg and fundos[dialogoAtual.bg] then
+        bg_atual = fundos[dialogoAtual.bg]
+    end
+
+    exibirMenu = false
+    interacaoAtual = nil -- Limpa a interação atual
+end
     else
         if key == "space" then
             indice = indice + 1
@@ -231,6 +251,11 @@ function love.keypressed(key)
             -- evita passar do último diálogo
             if indice > #dialogos then
                 indice = #dialogos
+            end
+            -- 👇 FALTAVA ISSO AQUI
+            local dialogoAtual = dialogos[indice]
+            if dialogoAtual.bg and fundos[dialogoAtual.bg] then
+                bg_atual = fundos[dialogoAtual.bg]
             end
         end
     end
