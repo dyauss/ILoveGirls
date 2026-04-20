@@ -1,63 +1,64 @@
 local fonte
 local bg_atual
 local kaede_chan
-local mc
+local kenji
+local takashi
 
 local dialogueBoxSimple1 = require("common.dialogue_box_simple_1")
 
 local dialogos = { -- Conte os números de linhas de diálogo abaixo para usar no índice de menu abaixo.
-    { nome = "Kaede", texto = "Olá" },
-    { nome = "Kaede", texto = "Esse é seu primeiro dia de aula não é mesmo?" },
-    { nome = "Kaede", texto = "Eu serei sua professora e irei te ensinar a arte de pegar waifus" },
-    { nome = "???", texto = "Obrigado, Kaede-sensei" },
-    { nome = "???",   texto = "Seguirei a risca tudo que me ensinar" },
-    { nome = "Kaede", texto = "Muito bem, meu caro" },
-    { nome = "Kaede", texto = "Agora me diga, por que você se interessou em entrar para o clube?" },
-    -- interacao_1
-    { nome = "Iroha Tachibana", texto = "Olá", bg = "terraco_escola" },
-    { nome = "Iroha Tachibana", texto = "Do que estão falando aí?" },
-    { nome = "???",             texto = "Caralho, como você é gata :O"},
-    { nome = "Iroha Tachibana", texto = "É uma pena que eu não possa dizer o mesmo de você" },
-    { nome = "Iroha Tachibana", texto = "Ei você aí, fracassado!" },
-    { nome = "Iroha Tachibana", texto = "Qual seu Persona favorito?"},
-    -- interacao_2
-    { nome = "???", texto = "Meu Deus, essa é a mulher da minha vida T.T" },
-    {nome = "Iroha Tachibana", texto = "Quer ir na minha casa hoje à noite?"},
+
+    { nome = "Kenji", texto = "Ah... mais uma dessas excursões escolares chatas, não aguento mais isso"},
+    { nome = "Kenji", texto = "Ainda bem que esse é nosso último ano"},
+    { nome = "Kenji", texto = "Será que dessa vez vai acontecer algo diferente?"},
+    { nome = "Kenji", texto = "Mais uma vez saindo com os mesmos caras idiotas"},
+    { nome = "Kenji", texto = "Cadê as gatinhas?"},
+    { nome = "Takashi", texto = "E aí, Kenji, pensando em mulher de novo?"},
+    { nome = "Kenji", texto = "Claro, e você não?"},
+    { nome = "Takashi", texto = "Nem me fale... Cara, eu faria de tudo pra ter uma gatinha sentada no seu lugar, pra ir do meu ladinho a viagem inteira"},
+    { nome = "Takashi", texto = "Como eu queria que a Naomi-chan estivesse aqui"},
+    { nome = "Takashi", texto = "Eu não tiraria os olhos das coxas dela nem por 1 minuto"},
+    { nome = "Kenji", texto = "Você é um pervertido mesmo, não tem jeito né"},
+    { nome = "Takashi", texto = "Até parece que você não faria o mesmo ou até pior"},
+    { nome = "Takashi", texto = "Mas me fala aí, quem você gostaria que estivesse sentada aqui no meu lugar agora?"},    
+
 
 }
 
 -- Sistema de interações
-local interacoes = {
-    [7] = { -- índice do diálogo onde a interação aparece
-        nome_personagem = "Kaede",
+ local interacoes = {
+    [13] = { -- índice do diálogo onde a interação aparece
+        nome_personagem = "Takashi", -- quem responde
         opcoes = {
-            "Quero aprender a conquistar waifus!",
-            "Preciso de dicas para conversar com garotas.",
-            "Estou nervoso, me ajude a relaxar."
+            "Kimiko-chan",
+            "Mio-chan",
+            "Naomi-chan",
+            "Iroha-chan"
         },
         respostas = {
-            "Então esse ano você vai pegar geral",
-            "Ah, então você não consegue falar com mulher sem tremer? Fracassado...",
-            "Como assim, não entendi?"
+            "Ah, então você gosta da Kimiko",
+            "Ah, então você gosta da Mio",
+            "Ah, então você gosta da Naomi",
+            "Ah, então você gosta da Iroha"
         }
     },
-    [14] = { -- índice do diálogo onde a segunda interação aparece
-        nome_personagem = "Iroha Tachibana",
-        opcoes = {
-            "Persona 1",
-            "Persona 2",
-            "Persona 3",
-            "Persona 4",
-            "Persona 5"
-        },
-        respostas = {
-            "Você é psicopata?",
-            "Maya e Tatsuya <3",
-            "Memento Mori",
-            "Everydays's great at your Junes~",
-            "Morgana é um lixo"
-        }
-    },
+    -- [14] = { -- índice do diálogo onde a segunda interação aparece
+    --     nome_personagem = "Iroha Tachibana",
+    --     opcoes = {
+    --         "Persona 1",
+    --         "Persona 2",
+    --         "Persona 3",
+    --         "Persona 4",
+    --         "Persona 5"
+    --     },
+    --     respostas = {
+    --         "Você é psicopata?",
+    --         "Maya e Tatsuya <3",
+    --         "Memento Mori",
+    --         "Everydays's great at your Junes~",
+    --         "Morgana é um lixo"
+    --     }
+    -- },
 }
 
 local opcaoSelecionada = 1 -- Índice da opção selecionada
@@ -72,17 +73,20 @@ function love.load()
     background_fiap = love.graphics.newImage("assets/background_fiap.png")
     background_terraco_escola = love.graphics.newImage("assets/terraco_escola.png")
     background_praia = love.graphics.newImage("assets/background_praia.png")
+    background_bus = love.graphics.newImage("assets/bus.png")
 
-    bg_atual = background_fiap
+    bg_atual = background_bus
 
     fundos = {
         fiap = background_fiap,
         terraco_escola = background_terraco_escola,
-        praia = background_praia
+        praia = background_praia,
+        bus = background_bus
     }
     kaede_chan = love.graphics.newImage("assets/girl21.png")
-    mc = love.graphics.newImage("assets/boy1.png")
+    kenji = love.graphics.newImage("assets/boy1.png")
     iroha_tachibana = love.graphics.newImage("assets/IrohaTachibana.png")
+    takashi = love.graphics.newImage("assets/Takashi.png")
 
     fonte = love.graphics.newFont(24)
 end
@@ -148,12 +152,25 @@ function love.draw()
         dialogos[indice].texto
     )
 
-    if dialogos[indice].nome == "???" then
+    if dialogos[indice].nome == "Kenji" then
         love.graphics.setColor(1, 1, 1)
 
-        -- Posição responsiva para MC (à esquerda)
-        local mc_x, mc_y, mc_escala = getLeftPosition(mc, user_screen_width, user_screen_height)
-        love.graphics.draw(mc, mc_x, mc_y, 0, mc_escala, mc_escala)
+        -- Posição responsiva para kenji (à esquerda)
+        local kenji_x, kenji_y, kenji_escala = getLeftPosition(kenji, user_screen_width, user_screen_height)
+        love.graphics.draw(kenji, kenji_x, kenji_y, 0, kenji_escala, kenji_escala)
+
+        dialogueBoxSimple1.drawDialogueBox(fonte, 40, user_screen_height - 170, user_screen_width - 80, 130,
+            dialogos[indice].nome,
+            dialogos[indice].texto
+        )
+    end
+
+    if dialogos[indice].nome == "Takashi" then
+        love.graphics.setColor(1, 1, 1)
+
+        -- Posição responsiva para takashi (à esquerda)
+        local takashi_x, takashi_y, takashi_escala = getRightPosition(takashi, user_screen_width, user_screen_height)
+        love.graphics.draw(takashi, takashi_x, takashi_y, 0, takashi_escala, takashi_escala)
 
         dialogueBoxSimple1.drawDialogueBox(fonte, 40, user_screen_height - 170, user_screen_width - 80, 130,
             dialogos[indice].nome,
