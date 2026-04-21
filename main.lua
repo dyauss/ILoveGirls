@@ -5,6 +5,7 @@ local kenji
 local takashi
 
 local dialogueBoxSimple1 = require("common.dialogue_box_simple_1")
+local characterRenderer = require("renderers.characters")
 
 local dialogos = { -- Conte os números de linhas de diálogo abaixo para usar no índice de menu abaixo.
 
@@ -87,39 +88,14 @@ function love.load()
     iroha_tachibana = love.graphics.newImage("assets/IrohaTachibana.png")
     takashi = love.graphics.newImage("assets/Takashi.png")
 
+    -- Mapa de imagens de personagens por nome
+    personagens = {
+        ["Kenji"] = kenji,
+        ["Takashi"] = takashi,
+        ["Iroha Tachibana"] = iroha_tachibana
+    }
+
     fonte = love.graphics.newFont(24)
-end
-
-local function getLeftPosition(image, user_screen_width, user_screen_height)
-    local img_width = image:getWidth()
-    local img_height = image:getHeight()
-
-    -- Escala do personagem baseada na altura da tela (ajuste o fator conforme necessário)
-    local escala_personagem = (user_screen_height * 0.8) / img_height
-
-    -- Posição X: margem de 5% da largura da tela
-    local pos_x = user_screen_width * 0.05
-
-    -- Posição Y: alinhado ao fundo da tela, com pequena margem
-    local pos_y = user_screen_height - (img_height * escala_personagem) - (user_screen_height * 0.15)
-
-    return pos_x, pos_y, escala_personagem
-end
-
-local function getRightPosition(image, user_screen_width, user_screen_height)
-    local img_width = image:getWidth()
-    local img_height = image:getHeight()
-
-    -- Escala do personagem baseada na altura da tela
-    local escala_personagem = (user_screen_height * 0.8) / img_height
-
-    -- Posição X: alinhado à direita com margem de 5%
-    local pos_x = user_screen_width - (img_width * escala_personagem) - (user_screen_width * 0.05)
-
-    -- Posição Y: alinhado ao fundo da tela, com pequena margem
-    local pos_y = user_screen_height - (img_height * escala_personagem) - (user_screen_height * 0.15)
-
-    return pos_x, pos_y, escala_personagem
 end
 
 function love.draw()
@@ -142,49 +118,14 @@ function love.draw()
 
     love.graphics.draw(bg_atual, offset_x, offset_y, 0, escala, escala)
 
+    -- Renderiza o personagem falante
+    characterRenderer.drawCharacter(dialogos[indice].nome, personagens, user_screen_width, user_screen_height)
+
+    -- Desenha a caixa de diálogo
     dialogueBoxSimple1.drawDialogueBox(fonte, 40, user_screen_height - 170, user_screen_width - 80, 130,
         dialogos[indice].nome,
         dialogos[indice].texto
     )
-
-    if dialogos[indice].nome == "Kenji" then
-        love.graphics.setColor(1, 1, 1)
-
-        -- Posição responsiva para kenji (à esquerda)
-        local kenji_x, kenji_y, kenji_escala = getLeftPosition(kenji, user_screen_width, user_screen_height)
-        love.graphics.draw(kenji, kenji_x, kenji_y, 0, kenji_escala, kenji_escala)
-
-        dialogueBoxSimple1.drawDialogueBox(fonte, 40, user_screen_height - 170, user_screen_width - 80, 130,
-            dialogos[indice].nome,
-            dialogos[indice].texto
-        )
-    end
-
-    if dialogos[indice].nome == "Takashi" then
-        love.graphics.setColor(1, 1, 1)
-
-        -- Posição responsiva para takashi (à esquerda)
-        local takashi_x, takashi_y, takashi_escala = getRightPosition(takashi, user_screen_width, user_screen_height)
-        love.graphics.draw(takashi, takashi_x, takashi_y, 0, takashi_escala, takashi_escala)
-
-        dialogueBoxSimple1.drawDialogueBox(fonte, 40, user_screen_height - 170, user_screen_width - 80, 130,
-            dialogos[indice].nome,
-            dialogos[indice].texto
-        )
-    end
-
-    if dialogos[indice].nome == "Iroha Tachibana" then
-        love.graphics.setColor(1, 1, 1)
-
-        -- Posição responsiva para Iroha (à esquerda)
-        local iroha_x, iroha_y, iroha_escala = getLeftPosition(iroha_tachibana, user_screen_width, user_screen_height)
-        love.graphics.draw(iroha_tachibana, iroha_x, iroha_y, 0, iroha_escala, iroha_escala)
-
-        dialogueBoxSimple1.drawDialogueBox(fonte, 40, user_screen_height - 170, user_screen_width - 80, 130,
-            dialogos[indice].nome,
-            dialogos[indice].texto
-        )
-    end
 
     -- Verifica se há uma interação neste índice
     if interacoes[indice] and not exibirMenu then
