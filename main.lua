@@ -7,65 +7,38 @@ local takashi
 local dialogueBoxSimple1 = require("common.dialogue_box_simple_1")
 local characterRenderer = require("renderers.characters")
 
-local dialogos = { -- Conte os números de linhas de diálogo abaixo para usar no índice de menu abaixo.
-
-    { nome = "Kenji", texto = "Ah... mais uma dessas excursões escolares chatas, não aguento mais isso"},
-    { nome = "Kenji", texto = "Ainda bem que esse é nosso último ano"},
-    { nome = "Kenji", texto = "Será que dessa vez vai acontecer algo diferente?"},
-    { nome = "Kenji", texto = "Mais uma vez saindo com os mesmos caras idiotas"},
-    { nome = "Kenji", texto = "Cadê as gatinhas?"},
-    { nome = "Takashi", texto = "E aí, Kenji, pensando em mulher de novo?"},
-    { nome = "Kenji", texto = "Claro, e você não?"},
-    { nome = "Takashi", texto = "Nem me fale... Cara, eu faria de tudo pra ter uma gatinha sentada no seu lugar, pra ir do meu ladinho a viagem inteira"},
-    { nome = "Takashi", texto = "Como eu queria que a Naomi-chan estivesse aqui"},
-    { nome = "Takashi", texto = "Eu não tiraria os olhos das coxas dela nem por 1 minuto"},
-    { nome = "Kenji", texto = "Você é um pervertido mesmo, não tem jeito né"},
-    { nome = "Takashi", texto = "Até parece que você não faria o mesmo ou até pior"},
-    { nome = "Takashi", texto = "Mas me fala aí, quem você gostaria que estivesse sentada aqui no meu lugar agora?" },
-    { nome = "Takashi", texto = "Queria bolo"},
+-- Sistema de capítulos
+local chapters = {
+    require("chapters.chapter_1"),
+    require("chapters.chapter_2")
 }
 
--- Sistema de interações
- local interacoes = {
-    [13] = { -- índice do diálogo onde a interação aparece
-        nome_personagem = "Takashi", -- quem responde
-        opcoes = {
-            "Kimiko-chan",
-            "Mio-chan",
-            "Naomi-chan",
-            "Iroha-chan"
-        },
-        respostas = {
-            "Ah, então você gosta da Kimiko",
-            "Ah, então você gosta da Mio",
-            "Ah, então você gosta da Naomi",
-            "Ah, então você gosta da Iroha"
-        }
-    },
-    -- [14] = { -- índice do diálogo onde a segunda interação aparece
-    --     nome_personagem = "Iroha Tachibana",
-    --     opcoes = {
-    --         "Persona 1",
-    --         "Persona 2",
-    --         "Persona 3",
-    --         "Persona 4",
-    --         "Persona 5"
-    --     },
-    --     respostas = {
-    --         "Você é psicopata?",
-    --         "Maya e Tatsuya <3",
-    --         "Memento Mori",
-    --         "Everydays's great at your Junes~",
-    --         "Morgana é um lixo"
-    --     }
-    -- },
-}
+local currentChapterIndex = 1  -- Começa no capítulo 1
+
+-- Carrega os diálogos e interações do capítulo atual
+local dialogos = chapters[currentChapterIndex].dialogos
+
+local interacoes = chapters[currentChapterIndex].interacoes
 
 local opcaoSelecionada = 1 -- Índice da opção selecionada
 local exibirMenu = false   -- Controla se o menu deve ser exibido
 local interacaoAtual = nil -- Armazena qual interação está ativa
 
 local indice = 1
+
+-- Função para carregar um capítulo específico
+function loadChapter(chapterIndex)
+    if chapterIndex < 1 or chapterIndex > #chapters then
+        return -- Não faz nada se o índice for inválido
+    end
+    
+    currentChapterIndex = chapterIndex
+    dialogos = chapters[currentChapterIndex].dialogos
+    interacoes = chapters[currentChapterIndex].interacoes
+    indice = 1  -- Reseta para o primeiro diálogo
+    exibirMenu = false
+    interacaoAtual = nil
+end
 
 function love.load()
     -- load all the assets
@@ -203,12 +176,18 @@ end
 
             -- evita passar do último diálogo
             if indice > #dialogos then
-                indice = #dialogos
-            end
-            -- 👇 FALTAVA ISSO AQUI
-            local dialogoAtual = dialogos[indice]
-            if dialogoAtual.bg and fundos[dialogoAtual.bg] then
-                bg_atual = fundos[dialogoAtual.bg]
+                -- Tenta carregar o próximo capítulo
+                if currentChapterIndex < #chapters then
+                    loadChapter(currentChapterIndex + 1)
+                else
+                    indice = #dialogos  -- Se não houver mais capítulos, fica no último diálogo
+                end
+            else
+                -- 👇 FALTAVA ISSO AQUI
+                local dialogoAtual = dialogos[indice]
+                if dialogoAtual.bg and fundos[dialogoAtual.bg] then
+                    bg_atual = fundos[dialogoAtual.bg]
+                end
             end
         end
     end
