@@ -4,7 +4,10 @@ local characterRenderer = {}
 local characterPositions = {
     ["Kenji"] = "left",
     ["Takashi"] = "right",
-    ["Iroha Tachibana"] = "left"
+    ["Iroha Tachibana"] = "left",
+    ["Kimiko"] = "right",
+    ["Kimiko Biquini"] = "right",
+    ["Kimiko Smirk"] = "right",
 }
 
 -- Calcula a posição para personagem à esquerda

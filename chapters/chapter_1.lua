@@ -30,27 +30,10 @@ chapter_1.interacoes = {
         respostas = {
             "Ah, então você gosta da Kimiko",
             "Ah, então você gosta da Mio",
-            "Ah, então você gosta da Naomi",
+            "Ah, então você também gosta da Naomi-chan, isso significa que somos rivais",
             "Ah, então você gosta da Iroha"
         }
-    },
-    -- [14] = { -- índice do diálogo onde a segunda interação aparece
-    --     nome_personagem = "Iroha Tachibana",
-    --     opcoes = {
-    --         "Persona 1",
-    --         "Persona 2",
-    --         "Persona 3",
-    --         "Persona 4",
-    --         "Persona 5"
-    --     },
-    --     respostas = {
-    --         "Você é psicopata?",
-    --         "Maya e Tatsuya <3",
-    --         "Memento Mori",
-    --         "Everydays's great at your Junes~",
-    --         "Morgana é um lixo"
-    --     }
-    -- },
+    }
 }
 
 return chapter_1

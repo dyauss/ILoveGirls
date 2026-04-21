@@ -31,7 +31,7 @@ function loadChapter(chapterIndex)
     if chapterIndex < 1 or chapterIndex > #chapters then
         return -- Não faz nada se o índice for inválido
     end
-    
+
     currentChapterIndex = chapterIndex
     dialogos = chapters[currentChapterIndex].dialogos
     interacoes = chapters[currentChapterIndex].interacoes
@@ -56,16 +56,25 @@ function love.load()
         praia = background_praia,
         bus = background_bus
     }
-    kaede_chan = love.graphics.newImage("assets/girl21.png")
+    -- carregar personagens
     kenji = love.graphics.newImage("assets/boy1.png")
-    iroha_tachibana = love.graphics.newImage("assets/IrohaTachibana.png")
     takashi = love.graphics.newImage("assets/Takashi.png")
+
+    iroha_tachibana = love.graphics.newImage("assets/IrohaTachibana.png")
+    kimiko = love.graphics.newImage("assets/Kimiko.png")
+    kimiko_biquini = love.graphics.newImage("assets/KimikoBiquini.png")
+    kimiko_smirk = love.graphics.newImage("assets/KimikoBiquiniSmirk.png")
+
+    kaede_chan = love.graphics.newImage("assets/girl21.png")
 
     -- Mapa de imagens de personagens por nome
     personagens = {
         ["Kenji"] = kenji,
         ["Takashi"] = takashi,
-        ["Iroha Tachibana"] = iroha_tachibana
+        ["Iroha Tachibana"] = iroha_tachibana,
+        ["Kimiko"] = kimiko,
+        ["Kimiko Biquini"] = kimiko_biquini,
+        ["Kimiko Smirk"] = kimiko_smirk,
     }
 
     fonte = love.graphics.newFont(24)
@@ -150,26 +159,25 @@ function love.keypressed(key)
                 opcaoSelecionada = 1
             end
         elseif key == "space" then
-    -- Pega a resposta correspondente à opção selecionada
-    local respostaEspecifica = interacaoAtual.respostas[opcaoSelecionada]
+            -- Pega a resposta correspondente à opção selecionada
+            local respostaEspecifica = interacaoAtual.respostas[opcaoSelecionada]
 
-    -- Insere a resposta no diálogo
-    table.insert(dialogos, indice + 1, {
-        nome = interacaoAtual.nome_personagem,
-        texto = respostaEspecifica
-    })
+            -- Insere a resposta no diálogo
+            table.insert(dialogos, indice + 1, {
+                nome = interacaoAtual.nome_personagem,
+                texto = respostaEspecifica
+            })
 
-    indice = indice + 1
+            indice = indice + 1
+            -- 👇 AQUI entra a troca de background
+            local dialogoAtual = dialogos[indice]
+            if dialogoAtual.bg and fundos[dialogoAtual.bg] then
+                bg_atual = fundos[dialogoAtual.bg]
+            end
 
-    -- 👇 AQUI entra a troca de background
-    local dialogoAtual = dialogos[indice]
-    if dialogoAtual.bg and fundos[dialogoAtual.bg] then
-        bg_atual = fundos[dialogoAtual.bg]
-    end
-
-    exibirMenu = false
-    interacaoAtual = nil -- Limpa a interação atual
-end
+            exibirMenu = false
+            interacaoAtual = nil -- Limpa a interação atual
+        end
     else
         if key == "space" then
             indice = indice + 1
