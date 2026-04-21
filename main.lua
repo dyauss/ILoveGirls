@@ -20,9 +20,8 @@ local dialogos = { -- Conte os números de linhas de diálogo abaixo para usar n
     { nome = "Takashi", texto = "Eu não tiraria os olhos das coxas dela nem por 1 minuto"},
     { nome = "Kenji", texto = "Você é um pervertido mesmo, não tem jeito né"},
     { nome = "Takashi", texto = "Até parece que você não faria o mesmo ou até pior"},
-    { nome = "Takashi", texto = "Mas me fala aí, quem você gostaria que estivesse sentada aqui no meu lugar agora?"},    
-
-
+    { nome = "Takashi", texto = "Mas me fala aí, quem você gostaria que estivesse sentada aqui no meu lugar agora?" },
+    { nome = "Takashi", texto = "Queria bolo"},
 }
 
 -- Sistema de interações
@@ -142,10 +141,6 @@ function love.draw()
     local offset_y = (user_screen_height - nova_altura) / 2
 
     love.graphics.draw(bg_atual, offset_x, offset_y, 0, escala, escala)
-
-    -- Posição responsiva para Kaede (à direita)
-    local kaede_x, kaede_y, kaede_escala = getRightPosition(kaede_chan, user_screen_width, user_screen_height)
-    love.graphics.draw(kaede_chan, kaede_x, kaede_y, 0, kaede_escala, kaede_escala)
 
     dialogueBoxSimple1.drawDialogueBox(fonte, 40, user_screen_height - 170, user_screen_width - 80, 130,
         dialogos[indice].nome,
