@@ -8,6 +8,7 @@ local characterPositions = {
     ["Kimiko"] = "right",
     ["Kimiko Biquini"] = "right",
     ["Kimiko Smirk"] = "right",
+    ["Mio"] = "right",
 }
 
 -- Calcula a posição para personagem à esquerda

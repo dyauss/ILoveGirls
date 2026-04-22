@@ -1,8 +1,6 @@
 local fonte
 local bg_atual
 local kaede_chan
-local kenji
-local takashi
 
 local dialogueBoxSimple1 = require("common.dialogue_box_simple_1")
 local characterRenderer = require("renderers.characters")
@@ -14,10 +12,10 @@ local chapters = {
 }
 
 local currentChapterIndex = 1  -- Começa no capítulo 1
+local rotaAtual = nil  -- Rastreia qual rota foi escolhida (nil = nenhuma rota escolhida ainda)
 
 -- Carrega os diálogos e interações do capítulo atual
 local dialogos = chapters[currentChapterIndex].dialogos
-
 local interacoes = chapters[currentChapterIndex].interacoes
 
 local opcaoSelecionada = 1 -- Índice da opção selecionada
@@ -38,11 +36,30 @@ function loadChapter(chapterIndex)
     indice = 1  -- Reseta para o primeiro diálogo
     exibirMenu = false
     interacaoAtual = nil
+    rotaAtual = nil  -- Reseta a rota ao mudar de capítulo
+end
+
+-- Função para carregar uma rota específica do capítulo atual
+function loadRoute(routeIndex)
+    local currentChapter = chapters[currentChapterIndex]
+
+    -- Verifica se o capítulo tem sistema de rotas
+    if not currentChapter.rotas or not currentChapter.rotas[routeIndex] then
+        return -- Não faz nada se a rota não existir
+    end
+
+    rotaAtual = routeIndex
+
+    -- Insere os diálogos da rota escolhida após o diálogo atual
+    local dialogosRota = currentChapter.rotas[routeIndex]
+
+    for i, dialogo in ipairs(dialogosRota) do
+        table.insert(dialogos, indice + i, dialogo)
+    end
 end
 
 function love.load()
-    -- load all the assets
-    -- Para adicionar novos backgrounds, declare-os abaixo e também dentro de fundos. Depois chame "bg = [nome da variavel em fundos]", como bg = "fiap" lá na linha de diálogo
+    -- Para adicionar novos backgrounds, declare-os abaixo e também dentro de fundos.
     background_fiap = love.graphics.newImage("assets/background_fiap.png")
     background_terraco_escola = love.graphics.newImage("assets/terraco_escola.png")
     background_praia = love.graphics.newImage("assets/background_praia.png")
@@ -56,25 +73,23 @@ function love.load()
         praia = background_praia,
         bus = background_bus
     }
+
     -- carregar personagens
     kenji = love.graphics.newImage("assets/boy1.png")
     takashi = love.graphics.newImage("assets/Takashi.png")
-
-    iroha_tachibana = love.graphics.newImage("assets/IrohaTachibana.png")
     kimiko = love.graphics.newImage("assets/Kimiko.png")
-    kimiko_biquini = love.graphics.newImage("assets/KimikoBiquini.png")
-    kimiko_smirk = love.graphics.newImage("assets/KimikoBiquiniSmirk.png")
-
+    mio = love.graphics.newImage("assets/Mio.png")
+    iroha_tachibana = love.graphics.newImage("assets/IrohaTachibana.png")
     kaede_chan = love.graphics.newImage("assets/girl21.png")
 
     -- Mapa de imagens de personagens por nome
     personagens = {
         ["Kenji"] = kenji,
         ["Takashi"] = takashi,
-        ["Iroha Tachibana"] = iroha_tachibana,
         ["Kimiko"] = kimiko,
-        ["Kimiko Biquini"] = kimiko_biquini,
-        ["Kimiko Smirk"] = kimiko_smirk,
+        ["Mio"] = mio,
+        ["Iroha Tachibana"] = iroha_tachibana,
+        ["Kaede"] = kaede_chan
     }
 
     fonte = love.graphics.newFont(24)
@@ -110,9 +125,25 @@ function love.draw()
     )
 
     -- Verifica se há uma interação neste índice
-    if interacoes[indice] and not exibirMenu then
+    local interacao = nil
+
+    -- Primeiro verifica interações globais (aparecem em todas as rotas)
+    if interacoes[indice] then
+        interacao = interacoes[indice]
+    end
+
+    -- Se estiver em uma rota, verifica interações específicas da rota (tem prioridade sobre globais)
+    local currentChapter = chapters[currentChapterIndex]
+    if rotaAtual and currentChapter.interacoes_por_rota and currentChapter.interacoes_por_rota[rotaAtual] then
+        if currentChapter.interacoes_por_rota[rotaAtual][indice] then
+            interacao = currentChapter.interacoes_por_rota[rotaAtual][indice]
+        end
+    end
+
+    -- Se encontrou alguma interação (global ou específica da rota), exibe o menu
+    if interacao and not exibirMenu then
         exibirMenu = true
-        interacaoAtual = interacoes[indice]
+        interacaoAtual = interacao
         opcaoSelecionada = 1 -- Reset da seleção
     end
 
@@ -162,17 +193,36 @@ function love.keypressed(key)
             -- Pega a resposta correspondente à opção selecionada
             local respostaEspecifica = interacaoAtual.respostas[opcaoSelecionada]
 
-            -- Insere a resposta no diálogo
-            table.insert(dialogos, indice + 1, {
-                nome = interacaoAtual.nome_personagem,
-                texto = respostaEspecifica
-            })
+            -- Verifica se esta interação é uma escolha de rota
+            if interacaoAtual.tipo == "escolha_rota" then
+                -- Insere a resposta no diálogo
+                table.insert(dialogos, indice + 1, {
+                    nome = interacaoAtual.nome_personagem,
+                    texto = respostaEspecifica
+                })
 
-            indice = indice + 1
-            -- 👇 AQUI entra a troca de background
-            local dialogoAtual = dialogos[indice]
-            if dialogoAtual.bg and fundos[dialogoAtual.bg] then
-                bg_atual = fundos[dialogoAtual.bg]
+                indice = indice + 1
+
+                -- Carrega a rota escolhida
+                local rotaEscolhida = interacaoAtual.rotas[opcaoSelecionada]
+                loadRoute(rotaEscolhida)
+
+                -- Ajusta o índice para continuar após a resposta
+                -- (já estamos no diálogo da resposta, próximo espaço vai para a rota)
+            else
+                -- Interação normal (sem mudança de rota)
+                table.insert(dialogos, indice + 1, {
+                    nome = interacaoAtual.nome_personagem,
+                    texto = respostaEspecifica
+                })
+
+                indice = indice + 1
+
+                -- 👇 AQUI entra a troca de background
+                local dialogoAtual = dialogos[indice]
+                if dialogoAtual.bg and fundos[dialogoAtual.bg] then
+                    bg_atual = fundos[dialogoAtual.bg]
+                end
             end
 
             exibirMenu = false
