@@ -15,6 +15,50 @@ chapter_1.dialogos = {
     { nome = "Kenji", texto = "Você é um pervertido mesmo, não tem jeito né"},
     { nome = "Takashi", texto = "Até parece que você não faria o mesmo ou até pior"},
     { nome = "Takashi", texto = "Mas me fala aí, quem você gostaria que estivesse sentada aqui no meu lugar agora?" },
+    -- interacao 1
+    {nome = "Kenji", texto="Sim. A *Iroha* faz mais o meu tipo. Ela é muito gata."},
+    {nome = "Takashi", texto="Eu adoraria rir da sua cara depois de tomar um fora, então vou te ajudar."},
+    {nome = "Kenji", texto="Como você pretende fazer isso?"},
+    {nome = "Takashi", texto="Só observe e aprenda com o mestre."},
+    {nome = "Takashi", texto="Kaede-sensei, eu estou com nauseas. Posso trocar de lugar com a Iroha-chan? Ela está sentada perto da janela pro lado da estrada."},
+    {nome = "Takashi", texto="Se eu trocar de lugar com o Kenji, eu vou vomitar em um carro."},
+    {nome = "Kaede", texto="Ah! Tudo bem. Troca de lugar com ele, Iroha. Por favor."},
+    {nome= "Iroha Tachibana", texto="Sério? Eu queria olhar para a floresta. Não pode trocar com outra pessoa?"},
+    {nome = "Takashi", texto="É que gosto mais de sentar na parte da frente. Por favor!"},
+    {nome = "Kaede", texto= "Não seja assim, Iroha. Não custa nada. Na volta eu prometo que te deixo sentar pro lado da melhor vista pela janela."},
+    {nome ="Iroha Tachibana", texto="Aff! Está bem. Vamos trocar de lugar então."},
+    {nome ="Kenji", texto="Te devo uma, meu mano."},
+    {nome ="Takashi", texto="Relaxa. As risadas que darei de você já pagarão o favor."},
+    {nome ="Iroha Tachibana", texto="Oi. Espero que não se incomode em eu estar sentada aqui."},
+    {nome ="Kenji", texto="Que nada! Desculpe pelo meu amigo, ele tem cinetose."},
+    {nome ="Iroha Tachibana", texto="E eu não tenho ideia do que significa isso. O que é cinetose?"},
+    -- interacao 2
+    {nome ="Iroha Tachibana", texto="E então? Está animado pela viagem?"},
+    {nome ="Kenji", texto="Estou. Afinal, é a última excursão da nossa turma. Já já todos estaremos formados. Sinto que tenho que aproveitar ao máximo."},
+    {nome ="Iroha Tachibana", texto="E como planeja aproveitar ao máximo a viagem?"},
+    {nome ="Kenji", texto="Ah... eh... Rindo bastante do Takashi vomitando dentro do ônibus"},
+    {nome = "Takashi", texto="blaarrrgh!"},
+    {nome = "Kenji", texto="Obrigado por ter dado cinetose para o Takashi, Deus."},
+    {nome = "Takashi", texto ="Eu sei o que você está pensando, seu filho da... blaaaarrrgh"},
+    {nome ="Iroha Tachibana", texto="Coitado do seu amigo. Será que ele ficará bem?"},
+    {nome = "Kenji", texto="Ah! Relaxa. Ele é assim desde que o conheço."},
+    {nome = "Kenji", texto="Mas e você? Ansiosa pela nossa última excursão escolar?"},
+    {nome = "Iroha Tachibana", texto="Bom, acho que é uma boa última chance pra fazer amigos, mesmo que já já nos formaremos."},
+    {nome = "Iroha Tachibana", texto="Preciso mudar esse comportamento para encarar a vida adulta."},
+    -- interacao 3
+    {nome = "Kenji", texto="Agora que tenho o seu número, podemos manter contato até depois de nos formarmos."},
+    {nome = "Iroha Tachibana", texto="Sim. Seria ótimo."},
+    {nome ="Iroha Tachibana", texto="Parece que estamos chegando em Kamakura. Confesso que não gosto muito de praia, mas estou ansiosa pra visitar o Templo Hokokuji."},
+    {nome = "Iroha Tachibana", texto="E você, Kenji? O que está mais ansioso para visitar em Kamakura?"},
+    -- interacao 4  
+    {nome ="Kenji", texto="Parece que chegamos."},
+    {nome = "Kaede", texto="Atenção, alunos. Chegamos em Kamakura. Peço para que dos que estão mais na frente saiam primeiro e em ordem. Sem baderna. Ouviram?"},
+    {nome = "Kaede", texto="Está se sentindo melhor, Takashi?"},
+    {nome = "Takashi", texto="Acho que sim, Kaede-sensei."},
+    {nome = "Kaede", texto="Ótimo. Kenji, ajude o seu amigo a chegar até o hotel."},
+    {nome = "Kenji", texto="Ok, Kaede-sensei. Nos falamos outra hora, Iroha."},
+    {nome = "Kenji", texto="Foi legal passar esse tempo conversando com você."},
+    {nome="Iroha Tachibana", texto="Digo o mesmo. Até mais tarde, Kenji-kun."}
 }
 
 -- Sistema de interações
@@ -32,6 +76,48 @@ chapter_1.interacoes = {
             "Ah, então você gosta da Mio",
             "Ah, então você também gosta da Naomi-chan, isso significa que somos rivais",
             "Ah, então você gosta da Iroha"
+        }
+    },
+
+    [30] = { -- índice do diálogo onde a interação aparece
+        nome_personagem = "Iroha Tachibana", -- quem responde
+        opcoes = {
+            "A cinetose é um distúrbio neurofisiológico provocado por um conflito sensorial entre diferentes sistemas responsáveis pela percepção de movimento e orientação espacial.",
+            "É basicamente a sensação de enjoo enquanto está em algum veículo.",
+            "Você é extremamente burra. Me pergunto como você consegue ter a capacidade de entender o que eu estou falando. Conseguiu chegar aqui no ônibus sozinha?",
+        },
+        respostas = {
+            "Ah... Eu... Eu não entendi ainda assim. Enfim, deixa pra lá.",
+            "Ah! Obrigada por me explicar. Não conhecia essa palavra. Você é muito inteligente!",
+            "Como você é grosseiro! Um completo babaca. Não fale mais comigo."
+        }
+    },
+
+    [43] = { -- índice do diálogo onde a interação aparece
+        nome_personagem = "Iroha Tachibana", -- quem responde
+        opcoes = {
+            "Bom, podemos manter contato, se quiser. Posso pegar seu número?",
+            "Ah! Não se preocupe. Você conseguirá fazer amigos.",
+            "E a Kimiko? Achei que ela fosse sua amiga.",
+        },
+        respostas = {
+            "Claro. Podemos tentar sermos amigos. Aqui está meu número.",
+            "Obrigada. Espero que essa viagem seja ótima para nós dois.",
+            "Ela é uma babaca. Ela implica comigo desde a sexta série."
+        }
+    },
+
+    [48] = { -- índice do diálogo onde a interação aparece
+        nome_personagem = "Iroha Tachibana", -- quem responde
+        opcoes = {
+            "O Templo Hokokuji",
+            "A Praia de Yuigahama",
+            "O vestiário feminino",
+        },
+        respostas = {
+            "Ah! Podemos visitar juntos, se quiser.",
+            "Bom, podemos dar uma volta na praia, apesar de eu não ser muito fã.",
+            "TARADO"
         }
     }
 }
