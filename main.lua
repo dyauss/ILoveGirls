@@ -80,7 +80,7 @@ function love.load()
     kimiko = love.graphics.newImage("assets/Kimiko.png")
     mio = love.graphics.newImage("assets/Mio.png")
     iroha_tachibana = love.graphics.newImage("assets/IrohaTachibana.png")
-    kaede_chan = love.graphics.newImage("assets/girl21.png")
+    kaede = love.graphics.newImage("assets/Kaede.png")
 
     -- Mapa de imagens de personagens por nome
     personagens = {
@@ -89,7 +89,7 @@ function love.load()
         ["Kimiko"] = kimiko,
         ["Mio"] = mio,
         ["Iroha Tachibana"] = iroha_tachibana,
-        ["Kaede"] = kaede_chan
+        ["Kaede"] = kaede
     }
 
     fonte = love.graphics.newFont(24)

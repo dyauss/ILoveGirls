@@ -4,6 +4,7 @@ local characterRenderer = {}
 local characterPositions = {
     ["Kenji"] = "left",
     ["Takashi"] = "right",
+    ["Kaede"] = "right",
     ["Iroha Tachibana"] = "left",
     ["Kimiko"] = "right",
     ["Kimiko Biquini"] = "right",
