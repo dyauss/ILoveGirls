@@ -188,33 +188,33 @@ end
 function drawMenu()
     local user_screen_width = love.graphics.getWidth()
     local user_screen_height = love.graphics.getHeight()
-    
+
     -- Fundo preto
     love.graphics.setColor(0, 0, 0, 1)
     love.graphics.rectangle("fill", 0, 0, user_screen_width, user_screen_height)
-    
+
     -- Título do jogo em branco
     love.graphics.setColor(1, 1, 1)
     love.graphics.setFont(fonteGrande)
     local tituloTexto = "ILoveGirls"
     local tituloLargura = fonteGrande:getWidth(tituloTexto)
     love.graphics.print(tituloTexto, (user_screen_width - tituloLargura) / 2, user_screen_height * 0.3)
-    
+
     -- Opções do menu
     love.graphics.setFont(fonte)
-    local opcoes = {"New Game"}
-    
+    local opcoes = {"New Game", "Options", "Exit"}
+
     for i, opcao in ipairs(opcoes) do
         if i == menuOpcaoSelecionada then
             love.graphics.setColor(1, 0, 0) -- Vermelho para selecionado
         else
             love.graphics.setColor(1, 1, 1) -- Branco para não selecionado
         end
-        
+
         local opcaoLargura = fonte:getWidth(opcao)
         love.graphics.print(opcao, (user_screen_width - opcaoLargura) / 2, user_screen_height * 0.5 + (i - 1) * 40)
     end
-    
+
     love.graphics.setColor(1, 1, 1)
 end
 
@@ -224,22 +224,28 @@ function love.keypressed(key)
         if key == "up" then
             menuOpcaoSelecionada = menuOpcaoSelecionada - 1
             if menuOpcaoSelecionada < 1 then
-                menuOpcaoSelecionada = 1  -- Por enquanto só tem uma opção
+                menuOpcaoSelecionada = 3  -- Volta para a última opção
             end
         elseif key == "down" then
             menuOpcaoSelecionada = menuOpcaoSelecionada + 1
-            if menuOpcaoSelecionada > 1 then  -- Por enquanto só tem uma opção
+            if menuOpcaoSelecionada > 3 then  -- 3 opções no total
                 menuOpcaoSelecionada = 1
             end
         elseif key == "space" or key == "return" then
             if menuOpcaoSelecionada == 1 then
                 -- New Game
                 gameState = "playing"
+            elseif menuOpcaoSelecionada == 2 then
+                -- Options (por enquanto não faz nada, pode ser implementado depois)
+                print("Options selecionado - funcionalidade a ser implementada")
+            elseif menuOpcaoSelecionada == 3 then
+                -- Exit
+                love.event.quit()
             end
         end
         return
     end
-    
+
     -- Resto do código de keypressed para o jogo
     if key == "r" then
         love.event.quit("restart")
