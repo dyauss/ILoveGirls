@@ -1,9 +1,14 @@
 local fonte
+local fonteGrande
 local bg_atual
 local kaede_chan
 
 local dialogueBoxSimple1 = require("common.dialogue_box_simple_1")
 local characterRenderer = require("renderers.characters")
+
+-- Estados do jogo
+local gameState = "menu"  -- Pode ser "menu" ou "playing"
+local menuOpcaoSelecionada = 1
 
 -- Sistema de capítulos
 local chapters = {
@@ -93,9 +98,17 @@ function love.load()
     }
 
     fonte = love.graphics.newFont(24)
+    fonteGrande = love.graphics.newFont(48)
 end
 
 function love.draw()
+    -- Se estiver no menu, desenha o menu
+    if gameState == "menu" then
+        drawMenu()
+        return
+    end
+
+    -- Caso contrário, desenha o jogo normalmente
     local user_screen_width = love.graphics.getWidth()
     local user_screen_height = love.graphics.getHeight()
 
@@ -172,7 +185,62 @@ function love.draw()
     love.graphics.setColor(1, 1, 1)
 end
 
+function drawMenu()
+    local user_screen_width = love.graphics.getWidth()
+    local user_screen_height = love.graphics.getHeight()
+    
+    -- Fundo preto
+    love.graphics.setColor(0, 0, 0, 1)
+    love.graphics.rectangle("fill", 0, 0, user_screen_width, user_screen_height)
+    
+    -- Título do jogo em branco
+    love.graphics.setColor(1, 1, 1)
+    love.graphics.setFont(fonteGrande)
+    local tituloTexto = "ILoveGirls"
+    local tituloLargura = fonteGrande:getWidth(tituloTexto)
+    love.graphics.print(tituloTexto, (user_screen_width - tituloLargura) / 2, user_screen_height * 0.3)
+    
+    -- Opções do menu
+    love.graphics.setFont(fonte)
+    local opcoes = {"New Game"}
+    
+    for i, opcao in ipairs(opcoes) do
+        if i == menuOpcaoSelecionada then
+            love.graphics.setColor(1, 0, 0) -- Vermelho para selecionado
+        else
+            love.graphics.setColor(1, 1, 1) -- Branco para não selecionado
+        end
+        
+        local opcaoLargura = fonte:getWidth(opcao)
+        love.graphics.print(opcao, (user_screen_width - opcaoLargura) / 2, user_screen_height * 0.5 + (i - 1) * 40)
+    end
+    
+    love.graphics.setColor(1, 1, 1)
+end
+
 function love.keypressed(key)
+    if gameState == "menu" then
+        -- Navegação no menu inicial
+        if key == "up" then
+            menuOpcaoSelecionada = menuOpcaoSelecionada - 1
+            if menuOpcaoSelecionada < 1 then
+                menuOpcaoSelecionada = 1  -- Por enquanto só tem uma opção
+            end
+        elseif key == "down" then
+            menuOpcaoSelecionada = menuOpcaoSelecionada + 1
+            if menuOpcaoSelecionada > 1 then  -- Por enquanto só tem uma opção
+                menuOpcaoSelecionada = 1
+            end
+        elseif key == "space" or key == "return" then
+            if menuOpcaoSelecionada == 1 then
+                -- New Game
+                gameState = "playing"
+            end
+        end
+        return
+    end
+    
+    -- Resto do código de keypressed para o jogo
     if key == "r" then
         love.event.quit("restart")
     end
