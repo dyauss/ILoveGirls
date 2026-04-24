@@ -10,8 +10,8 @@ chapter_2.dialogos = {
     { nome = "Takashi", texto = "Chegamos nessa porra", bg = "praia" },
     { nome = "Kimiko", texto = "Oi" },
     { nome = "Kimiko", texto = "Mó calor né? Vou tirar a roupa" },
-    { nome = "Kimiko Biquini", texto = "Bem melhor!" },
-    { nome = "Kimiko Smirk", texto = "E aí, o que acharam?" },
+    { nome = "Kimiko", texto = "Bem melhor!", sprite = "Kimiko Biquini" },
+    { nome = "Kimiko", texto = "E aí, o que acharam?", sprite = "Kimiko Smirk" },
     { nome = "Takashi", texto = "Ki-ki-kimiko?? O-o que você está fazendo??" }
 }
 

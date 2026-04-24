@@ -83,16 +83,20 @@ function love.load()
     kenji = love.graphics.newImage("assets/boy1.png")
     takashi = love.graphics.newImage("assets/Takashi.png")
     kimiko = love.graphics.newImage("assets/Kimiko.png")
+    kimiko_biquini = love.graphics.newImage("assets/KimikoBiquini.png")
+
     mio = love.graphics.newImage("assets/Mio.png")
     iroha_tachibana = love.graphics.newImage("assets/IrohaTachibana.png")
     kaede = love.graphics.newImage("assets/Kaede.png")
     naomi = love.graphics.newImage("assets/Naomi.png")
+
 
     -- Mapa de imagens de personagens por nome
     personagens = {
         ["Kenji"] = kenji,
         ["Takashi"] = takashi,
         ["Kimiko"] = kimiko,
+        ["Kimiko Biquini"] = kimiko_biquini,
         ["Mio"] = mio,
         ["Iroha Tachibana"] = iroha_tachibana,
         ["Kaede"] = kaede,
@@ -131,7 +135,9 @@ function love.draw()
     love.graphics.draw(bg_atual, offset_x, offset_y, 0, escala, escala)
 
     -- Renderiza o personagem falante
-    characterRenderer.drawCharacter(dialogos[indice].nome, personagens, user_screen_width, user_screen_height)
+    -- Usa o campo 'sprite' se existir, caso contrário usa o 'nome'
+    local spriteKey = dialogos[indice].sprite or dialogos[indice].nome
+    characterRenderer.drawCharacter(spriteKey, personagens, user_screen_width, user_screen_height)
 
     -- Desenha a caixa de diálogo
     dialogueBoxSimple1.drawDialogueBox(fonte, 40, user_screen_height - 170, user_screen_width - 80, 130,
