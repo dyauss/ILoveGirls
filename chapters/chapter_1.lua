@@ -2,18 +2,18 @@ local chapter_1 = {}
 
 -- Diálogos comuns a todas as rotas (antes da escolha)
 chapter_1.dialogos_comuns = {
-    { nome = "Kenji", texto = "Ah... mais uma dessas excursões escolares chatas, não aguento mais isso"},
-    { nome = "Kenji", texto = "Ainda bem que esse é nosso último ano"},
+    { nome = "Kenji", texto = "Ah... mais uma dessas excursões escolares chatas. Não aguento mais isso."},
+    { nome = "Kenji", texto = "Ainda bem que esse é nosso último ano."},
     { nome = "Kenji", texto = "Será que dessa vez vai acontecer algo diferente?"},
-    { nome = "Kenji", texto = "Mais uma vez saindo com os mesmos caras idiotas"},
+    { nome = "Kenji", texto = "Mais uma vez saindo com os mesmos caras idiotas."},
     { nome = "Kenji", texto = "Cadê as gatinhas?"},
     { nome = "Takashi", texto = "E aí, Kenji, pensando em mulher de novo?"},
     { nome = "Kenji", texto = "Claro, e você não?"},
-    { nome = "Takashi", texto = "Nem me fale... Cara, eu faria de tudo pra ter uma gatinha sentada no seu lugar, pra ir do meu ladinho a viagem inteira"},
-    { nome = "Takashi", texto = "Como eu queria que a Naomi-chan estivesse aqui"},
-    { nome = "Takashi", texto = "Eu não tiraria os olhos das coxas dela nem por 1 minuto"},
-    { nome = "Kenji", texto = "Você é um pervertido mesmo, não tem jeito né"},
-    { nome = "Takashi", texto = "Até parece que você não faria o mesmo ou até pior"},
+    { nome = "Takashi", texto = "Nem me fale... Cara, eu faria de tudo pra ter uma gatinha sentada no seu lugar, pra ir do meu ladinho a viagem inteira."},
+    { nome = "Takashi", texto = "Como eu queria que a Naomi-chan estivesse aqui."},
+    { nome = "Takashi", texto = "Eu não tiraria os olhos das coxas dela nem por um minuto."},
+    { nome = "Kenji", texto = "Você é um pervertido mesmo. Não tem jeito, né?"},
+    { nome = "Takashi", texto = "Até parece que você não faria o mesmo ou até pior."},
     { nome = "Takashi", texto = "Mas me fala aí, quem você gostaria que estivesse sentada aqui no meu lugar agora?" },
     -- ESCOLHA DE ROTA (interação índice 13)
 }
@@ -84,14 +84,18 @@ chapter_1.rotas = {
         {nome = "Takashi", texto="Eu adoraria rir da sua cara depois de tomar um fora, então vou te ajudar."},
         {nome = "Kenji", texto="Como você pretende fazer isso?"},
         {nome = "Takashi", texto="Só observe e aprenda com o mestre."},
-        {nome = "Takashi", texto="Kaede-sensei, eu estou com nauseas. Posso trocar de lugar com a Iroha-chan? Ela está sentada perto da janela pro lado da estrada."},
+        {nome = "Takashi", texto="Kaede-sensei, eu estou com náuseas. Posso trocar de lugar com a Iroha-chan? Ela está sentada perto da janela pro lado da floresta."},
         {nome = "Takashi", texto="Se eu trocar de lugar com o Kenji, eu vou vomitar em um carro."},
         {nome = "Kaede", texto="Ah! Tudo bem. Troca de lugar com ele, Iroha. Por favor."},
-        {nome= "Iroha Tachibana", texto="Sério? Eu queria olhar para a floresta. Não pode trocar com outra pessoa?"},
+        {nome = "Kaede", texto="Iroha? Iroha? Eu estou falando com você. Tire esse fone de ouvido."},
+        {nome = "Iroha Tachibana", texto="Oi? D-desculpa. O que disse?"},
+        {nome = "Kaede", texto="Eu pedi para que você trocasse de lugar com o Takashi."},
+        {nome= "Iroha Tachibana", texto="Bom... É que eu queria olhar para a floresta. Não pode trocar com outra pessoa?"},
+        {nome= "Iroha Tachibana", texto="Pra esse lado só tem uma vista sem graça da pista e prédios e eu nem estaria perto da janela."},
         {nome = "Takashi", texto="É que gosto mais de sentar na parte da frente. Por favor!"},
         {nome = "Kaede", texto= "Não seja assim, Iroha. Não custa nada. Na volta eu prometo que te deixo sentar pro lado da melhor vista pela janela."},
-        {nome ="Iroha Tachibana", texto="Aff! Está bem. Vamos trocar de lugar então."},
-        {nome ="Kenji", texto="Te devo uma, meu mano."},
+        {nome ="Iroha Tachibana", texto="Está bem. Vamos trocar de lugar então."},
+        {nome ="Kenji", texto="Te devo uma, meu consagrado."},
         {nome ="Takashi", texto="Relaxa. As risadas que darei de você já pagarão o favor."},
         {nome ="Iroha Tachibana", texto="Oi. Espero que não se incomode em eu estar sentada aqui."},
         {nome ="Kenji", texto="Que nada! Desculpe pelo meu amigo, ele tem cinetose."},
@@ -107,11 +111,13 @@ chapter_1.rotas = {
         {nome ="Iroha Tachibana", texto="Coitado do seu amigo. Será que ele ficará bem?"},
         {nome = "Kenji", texto="Ah! Relaxa. Ele é assim desde que o conheço."},
         {nome = "Kenji", texto="Mas e você? Ansiosa pela nossa última excursão escolar?"},
-        {nome = "Iroha Tachibana", texto="Bom, acho que é uma boa última chance pra fazer amigos, mesmo que já já nos formaremos."},
-        {nome = "Iroha Tachibana", texto="Preciso mudar esse comportamento para encarar a vida adulta."},
+        {nome = "Iroha Tachibana", texto="Eu tenho tentado mudar. Me sinto isolada por conta do meu jeito introvertido."},
+        {nome = "Iroha Tachibana", texto="Acho que essa excursão vai ser um grande desafio para mim."},
+        {nome = "Iroha Tachibana", texto="Preciso mudar para encarar a vida adulta."},
         -- interacao 3
         {nome = "Kenji", texto="Agora que tenho o seu número, podemos manter contato até depois de nos formarmos."},
         {nome = "Iroha Tachibana", texto="Sim. Seria ótimo."},
+        {nome="Iroha Tachibana", texto="Uau! Olha ali."},
         {nome ="Iroha Tachibana", texto="Parece que estamos chegando em Kamakura. Confesso que não gosto muito de praia, mas estou ansiosa pra visitar o Templo Hokokuji."},
         {nome = "Iroha Tachibana", texto="E você, Kenji? O que está mais ansioso para visitar em Kamakura?"},
         -- interacao 4
@@ -167,7 +173,7 @@ chapter_1.interacoes_por_rota = {
 
     -- Rota 4: Iroha
     [4] = {
-        [30] = { -- Interação sobre cinetose (SÓ na Rota 4: Iroha)
+        [34] = { -- Interação sobre cinetose (SÓ na Rota 4: Iroha)
             nome_personagem = "Iroha Tachibana",
             opcoes = {
                 "A cinetose é um distúrbio neurofisiológico provocado por um conflito sensorial entre diferentes sistemas responsáveis pela percepção de movimento e orientação espacial.",
@@ -180,7 +186,7 @@ chapter_1.interacoes_por_rota = {
                 "Como você é grosseiro! Um completo babaca. Não fale mais comigo."
             }
         },
-        [43] = { -- índice do diálogo onde a interação aparece
+        [48] = { -- índice do diálogo onde a interação aparece
             nome_personagem = "Iroha Tachibana", -- quem responde
             opcoes = {
                 "Bom, podemos manter contato, se quiser. Posso pegar seu número?",
@@ -190,10 +196,10 @@ chapter_1.interacoes_por_rota = {
             respostas = {
                 "Claro. Podemos tentar sermos amigos. Aqui está meu número.",
                 "Obrigada. Espero que essa viagem seja ótima para nós dois.",
-                "Ela é uma babaca. Ela implica comigo desde a sexta série."
+                "Ela é uma babaca. Ela implica comigo desde a sexta série. Bom, não quero falar sobre isso agora."
             }
         },
-        [48] = { -- índice do diálogo onde a interação aparece
+        [54] = { -- índice do diálogo onde a interação aparece
             nome_personagem = "Iroha Tachibana", -- quem responde
             opcoes = {
                 "O Templo Hokokuji",
