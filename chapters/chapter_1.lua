@@ -73,9 +73,35 @@ chapter_1.rotas = {
     },
 
     -- ROTA 3: Naomi
+
     [3] = {
+        {nome = "Kenji", texto = "(Eu sei que esse idiota gosta da Naomi, estou percebendo uma oportunidade aqui...)"}, -- Pensamento
         {nome = "Kenji", texto="Sim. A Naomi faz mais o meu tipo. Ela é muito gata."},
-        {nome = "Takashi", texto="Naomi é realmente incrível!"},
+        {nome = "Takashi", texto="Ah, então somos rivais meu caro. Tire os seus olhos da minha futura esposa."},
+        {nome = "Kenji", texto ="Foi você que perguntou cara, estou sendo sincero aqui, mas, se tivermos que competir, que vença o melhor !"},
+        {nome = "Takashi", texto ="Dúvido que você saiba qual é o mangá favorito dela"},
+        {nome = "Kenji", texto = "Você deve ser um psicopata para saber disso... \nMas então... qual é?"},
+        {nome = "Takashi", texto = "Acha mesmo que irei dar uma informação importante dessas fácil assim logo para meu rival? hahaha"},
+        {nome = "Kenji", texto = "Bem, eu sei que ela gosta de basquete, aliás, comecei a ler recentemente Slam Dunk por causa disso"},
+        {nome = "Takashi", texto = "Aaa, hmmm, é... ela deve gostar msm de Slam dunk, mas não acho que seja o mangá favorito dela cara, acho melhor nem tentar"},
+        {nome = "Naomi", texto = "Eii ! Estou ouvindo alguém falando de Slam Dunk, quem é que tem esse excelente gosto por mangás?"},
+        {nome = "Kenji", texto = "'*Acho melhor nem tentar*' né meu caro amigo?"}, --Cochichando
+        {nome = "Kenji", texto = "Oi ! Estava discutindo com meu amigo que comecei a ler Slam Dunk a pouco tempo, e estou gostando muito, você também é uma fã?"},
+        {nome = "Naomi", texto = "Mas é claro ! É o melhor mangá de todos os tempos para mim, foi ele que popularizou o esporte no Japão. Você está em que parte?"},
+        -- INTERAÇÃO índice 27 (13 comuns + 1 resposta + 13 da rota = 27)
+        {nome = "Kenji", texto = "Não quer discutir um pouco da história comigo até chegarmos lá, seria legal comentar sobre o mangá com uma especialista como você !"},
+        {nome = "Naomi", texto = "Até que não seria má idéia.\nEi Iroha, se importa que eu troque de lugar com o Takashi?"},
+        {nome = "Naomi", texto = "E Takashi, é claro, se importaria de trocar de lugar comigo também?"},
+        {nome = "Iroha", texto = "Ah, claro, sem problemas Naomi-chan"},
+        {nome = "Takashi", texto = "Mas que mizerável, não que você conseguiu desta vez, mas não irei desistir, ainda me casarei com essa mulher !!"}, --cochichando
+        {nome = "Takashi", texto = "Não sei não Naomi-chan, meu banco está uma porcaria, suas costas vão ficar doendo"},
+        {nome = "Naomi", texto = "Ahhh não tem problema, o meu também está assim, dúvido que o seu esteja pior alías hahaha"},
+        {nome = "Kenji", texto = "É Takashi, aliás, eu posso trocar de lugar com ela, deixo ela na janela e eu sento ai no seu lugar. :D"},
+        {nome = "Takashi", texto = "Ah, hmm, é, ah haha ok então, eu troco com você Naomi"},
+        ---Narrador diz que ambos trocam de lugar, e ao sentar, Takashi ja diz:
+        {nome = "Takashi", texto = "Puta que pariu, mas que merda, caralho, não é que esse lugar está uma porcaria mesmo"},
+        {nome = "Iroha", texto = "..."}, --procede a por o fone de ouvido
+        ----- continuar
     },
 
     -- ROTA 4: Iroha
@@ -100,7 +126,7 @@ chapter_1.rotas = {
         {nome ="Iroha Tachibana", texto="Oi. Espero que não se incomode em eu estar sentada aqui."},
         {nome ="Kenji", texto="Que nada! Desculpe pelo meu amigo, ele tem cinetose."},
         {nome ="Iroha Tachibana", texto="E eu não tenho ideia do que significa isso. O que é cinetose?"},
-        -- INTERAÇÃO índice 30 (13 comuns + 1 resposta + 16 da rota = 30)
+        -- INTERAÇÃO índice 30 (13 comuns + 1 resposta + 20 da rota = 34)
         {nome ="Iroha Tachibana", texto="E então? Está animado pela viagem?"},
         {nome ="Kenji", texto="Estou. Afinal, é a última excursão da nossa turma. Já já todos estaremos formados. Sinto que tenho que aproveitar ao máximo."},
         {nome ="Iroha Tachibana", texto="E como planeja aproveitar ao máximo a viagem?"},
@@ -130,6 +156,7 @@ chapter_1.rotas = {
         {nome = "Kenji", texto="Foi legal passar esse tempo conversando com você."},
         {nome="Iroha Tachibana", texto="Digo o mesmo. Até mais tarde, Kenji-kun."}
     }
+    
 }
 
 -- Interações GLOBAIS (aparecem independente da rota)
@@ -146,7 +173,7 @@ chapter_1.interacoes = {
         respostas = {
             "A KIMIKO??",
             "Ah, então você gosta da Mio",
-            "Ah, então você também gosta da Naomi-chan, isso significa que somos rivais",
+            "Ah, então você também gosta da Naomi-chan, está tentando me passar para trás é?",
             "Ah, então você gosta da Iroha"
         },
         rotas = {1, 2, 3, 4} -- Mapeia cada opção para uma rota
@@ -169,6 +196,19 @@ chapter_1.interacoes_por_rota = {
     -- Rota 3: Naomi
     [3] = {
         -- Adicione interações específicas da rota Naomi aqui
+        [27] = { -- Interação capítulo de Slam Dunk (Só na rota 3: Naomi)
+            nome_personagem = "Naomi",
+            opcoes = {
+               "Estou no 3° volume ainda, estou gostando dos personagens e do rumo da história", -- (sincero)
+               "Estou na parte em que eles estão na final do Nacional !", -- (mentir) 
+               "Na verdade, só falei isso para você se interessar em mim, sentar aqui do meu lado, e a gente dar uns amassos." -- (meter o loko)
+            },
+            respostas = {
+                "Ah, que legal, então você começou a pouco tempo, espero que continue lendo, tenho certeza que vai adorar o desenvolvimento do Sakuragi e dos outros",
+                "Hmmm, tem certeza que estamos falando do mesmo mangá? Não é kuroko no basket?",
+                "Admiro sua falta de vergonha na cara, mas... KAEDE SENSEI, UM TARADO !!!"    
+            }
+        }
     },
 
     -- Rota 4: Iroha
