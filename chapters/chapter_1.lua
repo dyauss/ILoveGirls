@@ -128,21 +128,20 @@ chapter_1.rotas = {
         {nome ="Kenji", texto="Estou. Essa é a última excursão do segundo ano. Já já estaremos no terceiro ano. O tempo passa rápido e eu quero aproveitar ao máximo."},
         {nome ="Iroha Tachibana", texto="Verdade. Como planeja aproveitar ao máximo a viagem?"},
         {nome ="Kenji", texto="Ah... eh... Rindo bastante do Takashi vomitando dentro do ônibus."},
-        {nome = "Takashi", texto="blaarrrgh!"},
+        {nome = "Takashi", texto="blaarrrgh!", som="puke"},
         {nome = "Kenji", texto="Obrigado por existir, cinetose. Você é muito foda!"},
-        {nome = "Takashi", texto ="Eu sei o que você está pensando, seu filho da... blaaaarrrgh"},
+        {nome = "Takashi", texto ="Eu sei o que você está pensando, seu filho da... blaaaarrrgh", som="puke"},
         {nome ="Iroha Tachibana", texto="Coitado do seu amigo. Será que ele ficará bem?"},
         {nome = "Kenji", texto="Ah! Relaxa. Se morrer, a vida continua. Brincadeira. Ele ficará bem."},
         {nome = "Kenji", texto="Mas e você? Ansiosa pela nossa última excursão escolar do segundo ano?"},
         {nome = "Iroha Tachibana", texto="Eu tenho tentado mudar. Naomi é a minha única amiga e até ela diz que eu preciso ser mais social."},
         {nome = "Iroha Tachibana", texto="Acho que essa excursão vai ser um grande desafio para mim."},
-        {nome = "Iroha Tachibana", texto="Preciso me dar bem com as pessoas para encarar a vida adulta."},
         -- interacao 3
-        {nome = "Kenji", texto="Agora que tenho o seu número, podemos manter contato até nas férias."},
-        {nome = "Iroha Tachibana", texto="Sim. Seria ótimo."},
+        {nome = "Kenji", texto="Podemos sim. Falando nisso, quais lugares em Kamakura você mais quer visitar?", som="hmmm"},
+        {nome = "Iroha Tachibana", texto="A Floresta de Bambus, lá no Templo Hokoku-ji. Já vi fotos e parece um lugar lindo."},
         {nome="Iroha Tachibana", texto="Uau! Olha ali!"},
-        {nome ="Iroha Tachibana", texto="Parece que estamos chegando em Kamakura. Confesso que não gosto muito de praia, mas estou ansiosa pra visitar o Templo Hokokuji."},
-        {nome = "Iroha Tachibana", texto="E você, Kenji? O que está mais ansioso para visitar em Kamakura?"},
+        {nome ="Iroha Tachibana", texto="Parece que estamos chegando no nosso hotel."},
+        {nome = "Iroha Tachibana", texto="Mas e você, Kenji? O que está mais ansioso para visitar em Kamakura?"},
         -- interacao 4
         {nome ="Kenji", texto="Parece que chegamos."},
         {nome = "Kaede", texto="Atenção, alunos. Chegamos em Kamakura. Peço para que dos que estão mais na frente saiam primeiro e em ordem. Sem baderna. Ouviram?"},
@@ -219,34 +218,34 @@ chapter_1.interacoes_por_rota = {
             },
             respostas = {
                 "Ah... Eu... Eu não entendi ainda assim. Enfim, deixa pra lá.",
-                "Ah! Obrigada por me explicar. Não conhecia essa palavra. Você é muito inteligente!",
+                "Ah! Obrigada por me explicar. Não conhecia essa palavra.",
                 "Hahahaha! Eu não esperava por essa."
             }
         },
-        [45] = { -- índice do diálogo onde a interação aparece
+        [44] = { -- índice do diálogo onde a interação aparece
             nome_personagem = "Iroha Tachibana", -- quem responde
             opcoes = {
-                "Bom, podemos manter contato, se quiser. Posso pegar seu número?",
+                "Bom, podemos tentar conversar mais daqui pra frente, se quiser. Podemos ser amigos.",
                 "Ah! Não se preocupe. Você conseguirá fazer amigos.",
                 "E a Kimiko? Achei que ela fosse sua amiga.",
             },
             respostas = {
-                "Claro. Podemos tentar sermos amigos. Aqui está meu número.",
+                "Seria ótimo! Podemos até visitar juntos alguns lugares em Kamakura.",
                 "Obrigada. Espero que essa viagem seja ótima para nós dois.",
-                "Ela é uma babaca. Ela implica comigo desde a sexta série. Bom, não quero falar sobre isso agora."
+                "Na verdade, ela não é minha amiga... Vamos falar de outra coisa."
             }
         },
-        [51] = { -- índice do diálogo onde a interação aparece
+        [50] = { -- índice do diálogo onde a interação aparece
             nome_personagem = "Iroha Tachibana", -- quem responde
             opcoes = {
-                "O Templo Hokokuji",
-                "A Praia de Yuigahama",
-                "O vestiário feminino",
+                "O Templo Hokoku-ji.",
+                "A Praia de Yuigahama.",
+                "O seu coração.",
             },
             respostas = {
                 "Ah! Podemos visitar juntos, se quiser.",
-                "Bom, podemos dar uma volta na praia, apesar de eu não ser muito fã.",
-                "SEU TARADO!"
+                "Não sou muito de praia, mas faz parte do roteiro de excursão da turma.",
+                "Ei! P-Pare de brincar com isso!"
             }
         }
     }

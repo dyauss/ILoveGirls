@@ -8,6 +8,9 @@ function Audio.load()
     Audio.sons["cute-laugh"] = love.audio.newSource("sounds/cute-girl-laugh.mp3", "static")
     Audio.sons["cute-giggle"] = love.audio.newSource("sounds/cute-giggle-girl.mp3", "static")
     Audio.sons["pedro"] = love.audio.newSource("sounds/pedro-musica.mp3", "static")
+    Audio.sons["hmmm"] = love.audio.newSource("sounds/female-hmm.mp3", "static")
+    Audio.sons["puke"] = love.audio.newSource("sounds/puke.mp3", "static")
+    Audio.sons["scared-girl-scream"] = love.audio.newSource("sounds/scared-anime-girl-scream.mp3", "static")
 end
 
 function Audio.play(nome)
