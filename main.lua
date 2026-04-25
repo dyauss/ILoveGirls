@@ -2,6 +2,7 @@ local fonte
 local fonteGrande
 local bg_atual
 local kaede_chan
+local Audio = require("systems.sound")
 
 local dialogueBoxSimple1 = require("common.dialogue_box_simple_1")
 local characterRenderer = require("renderers.characters")
@@ -105,6 +106,9 @@ function love.load()
 
     fonte = love.graphics.newFont(24)
     fonteGrande = love.graphics.newFont(48)
+
+    --sistema de som
+    Audio.load()
 end
 
 function love.draw()
@@ -305,6 +309,11 @@ function love.keypressed(key)
                 if dialogoAtual.bg and fundos[dialogoAtual.bg] then
                     bg_atual = fundos[dialogoAtual.bg]
                 end
+
+                -- sistema de som
+                if dialogoAtual.som then
+                    Audio.play(dialogoAtual.som)
+                end
             end
 
             exibirMenu = false
@@ -320,13 +329,19 @@ function love.keypressed(key)
                 if currentChapterIndex < #chapters then
                     loadChapter(currentChapterIndex + 1)
                 else
-                    indice = #dialogos  -- Se não houver mais capítulos, fica no último diálogo
+                    indice = #dialogos
                 end
             else
-                -- 👇 FALTAVA ISSO AQUI
                 local dialogoAtual = dialogos[indice]
+
+                -- 🎨 background
                 if dialogoAtual.bg and fundos[dialogoAtual.bg] then
                     bg_atual = fundos[dialogoAtual.bg]
+                end
+
+                -- 🔊 som (AGORA NO LUGAR CERTO)
+                if dialogoAtual.som then
+                    Audio.play(dialogoAtual.som)
                 end
             end
         end
