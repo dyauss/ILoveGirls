@@ -10,7 +10,8 @@ local characterPositions = {
     ["Kimiko Biquini"] = "right",
     ["Kimiko Biquini Smirk"] = "right",
     ["Mio"] = "right",
-    ["Naomi"] = "right"
+    ["Naomi"] = "right",
+    ["Hanako"] = "right"
 }
 
 -- Estado da cena: mantém os personagens atualmente visíveis
