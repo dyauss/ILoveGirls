@@ -13,6 +13,7 @@ local menuOpcaoSelecionada = 1
 
 -- Sistema de capítulos
 local chapters = {
+    require("chapters.chapter_0"),
     require("chapters.chapter_1"),
     require("chapters.chapter_2")
 }
@@ -70,14 +71,16 @@ function love.load()
     background_terraco_escola = love.graphics.newImage("assets/terraco_escola.png")
     background_praia = love.graphics.newImage("assets/background_praia.png")
     background_bus = love.graphics.newImage("assets/bus.png")
+    background_esperando_onibus = love.graphics.newImage("assets/background_esperando_onibus.png")
 
-    bg_atual = background_bus
+    bg_atual = background_esperando_onibus
 
     fundos = {
         fiap = background_fiap,
         terraco_escola = background_terraco_escola,
         praia = background_praia,
-        bus = background_bus
+        bus = background_bus,
+        esperando_onibus =  background_esperando_onibus
     }
 
     -- carregar personagens
@@ -88,6 +91,7 @@ function love.load()
     iroha_tachibana = love.graphics.newImage("assets/IrohaTachibana.png")
     kaede = love.graphics.newImage("assets/Kaede.png")
     naomi = love.graphics.newImage("assets/Naomi.png")
+    hanako = love.graphics.newImage("assets/Hanako.png")
 
     -- Mapa de imagens de personagens por nome
     personagens = {
@@ -97,7 +101,8 @@ function love.load()
         ["Mio"] = mio,
         ["Iroha Tachibana"] = iroha_tachibana,
         ["Kaede"] = kaede,
-        ["Naomi"] = naomi
+        ["Naomi"] = naomi,
+        ["Hanako"] = hanako
     }
 
     fonte = love.graphics.newFont(24)
