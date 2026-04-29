@@ -161,10 +161,35 @@ function loadGame()
         -- Restaura estado de menu
         exibirMenu = saveData.exibirMenu or false
         opcaoSelecionada = saveData.opcaoSelecionada or 1
-        interacaoAtual = nil  -- Resetamos isso pois será recriado quando necessário
+        interacaoAtual = nil  -- Será recriado abaixo se necessário
+        
+        -- Se exibirMenu estava true, precisamos recriar a interação
+        if exibirMenu then
+            -- Primeiro verifica interações globais
+            local interacao = interacoes[indice]
+            
+            -- Se estiver em uma rota, verifica interações específicas da rota (tem prioridade)
+            local currentChapter = chapters[currentChapterIndex]
+            if rotaAtual and currentChapter.interacoes_por_rota and currentChapter.interacoes_por_rota[rotaAtual] then
+                if currentChapter.interacoes_por_rota[rotaAtual][indice] then
+                    interacao = currentChapter.interacoes_por_rota[rotaAtual][indice]
+                end
+            end
+            
+            -- Se encontrou a interação, restaura ela
+            if interacao then
+                interacaoAtual = interacao
+            else
+                -- Se não encontrou, desativa o menu
+                exibirMenu = false
+            end
+        end
         
         print("Jogo carregado com sucesso!")
         print("Capítulo: " .. currentChapterIndex .. ", Diálogo: " .. indice)
+        if exibirMenu and interacaoAtual then
+            print("Menu de escolha restaurado com " .. #interacaoAtual.opcoes .. " opções")
+        end
         
         -- Muda para o estado de jogo
         gameState = "playing"
