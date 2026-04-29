@@ -1,0 +1,6 @@
+currentChapterIndex=1
+indice=153
+rotaAtual=nil
+bg_atual_key=bus
+exibirMenu=true
+opcaoSelecionada=1
