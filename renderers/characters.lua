@@ -11,7 +11,8 @@ local characterPositions = {
     ["Kimiko Biquini Smirk"] = "right",
     ["Mio"] = "right",
     ["Naomi"] = "right",
-    ["Hanako"] = "right"
+    ["Hanako"] = "right",
+    ["Sayuri"] = "right",
 }
 
 -- Estado da cena: mantém os personagens atualmente visíveis
@@ -62,7 +63,7 @@ end
 local function drawSingleCharacter(characterName, characterImage, screenWidth, screenHeight, isActive)
     -- Usa a posição override se existir, caso contrário usa a padrão
     local position = positionOverrides[characterName] or characterPositions[characterName]
-    
+
     if not position then
         return
     end
@@ -83,7 +84,7 @@ local function drawSingleCharacter(characterName, characterImage, screenWidth, s
     end
 
     love.graphics.draw(characterImage, char_x, char_y, 0, char_scale, char_scale)
-    
+
     -- Reseta a cor
     love.graphics.setColor(1, 1, 1, 1)
 end
@@ -103,7 +104,7 @@ function characterRenderer.drawCharacter(characterName, charactersMap, screenWid
 
     -- Usa a posição override se existir, caso contrário usa a padrão
     local position = positionOverrides[characterName] or characterPositions[characterName]
-    
+
     if not position then
         return
     end
@@ -148,7 +149,7 @@ end
 -- Função para remover um personagem específico da cena
 function characterRenderer.removeCharacter(characterName)
     local position = characterPositions[characterName]
-    
+
     if position == "left" then
         sceneState.left = nil
     elseif position == "right" then
