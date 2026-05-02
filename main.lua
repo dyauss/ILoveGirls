@@ -61,7 +61,7 @@ function saveGame()
         exibirMenu = exibirMenu,
         opcaoSelecionada = opcaoSelecionada
     }
-    
+
     -- Descobre qual é a chave do background atual
     for key, bg in pairs(fundos) do
         if bg == bg_atual then
@@ -69,7 +69,7 @@ function saveGame()
             break
         end
     end
-    
+
     -- Serializa os dados para string
     local dataString = string.format(
         "currentChapterIndex=%d\nindice=%d\nrotaAtual=%s\nbg_atual_key=%s\nexibirMenu=%s\nopcaoSelecionada=%d",
@@ -80,7 +80,7 @@ function saveGame()
         tostring(saveData.exibirMenu),
         saveData.opcaoSelecionada
     )
-    
+
     -- Salva no arquivo usando io padrão do Lua (para salvar na pasta do projeto)
     local file, err = io.open(SAVE_FILE, "w")
     if file then
@@ -102,15 +102,15 @@ function loadGame()
         print("Nenhum save encontrado em " .. SAVE_FILE)
         return false
     end
-    
+
     local data = file:read("*all")
     file:close()
-    
+
     if not data or data == "" then
         print("Erro ao ler o arquivo de save.")
         return false
     end
-    
+
     -- Parse dos dados
     local saveData = {}
     for line in data:gmatch("[^\n]+") do
@@ -129,17 +129,17 @@ function loadGame()
             end
         end
     end
-    
+
     -- Restaura o estado do jogo
     if saveData.currentChapterIndex then
         -- Carrega o capítulo salvo
         currentChapterIndex = saveData.currentChapterIndex
         dialogos = chapters[currentChapterIndex].dialogos
         interacoes = chapters[currentChapterIndex].interacoes
-        
+
         -- Restaura o índice do diálogo
         indice = saveData.indice or 1
-        
+
         -- Restaura a rota se houver
         if saveData.rotaAtual then
             rotaAtual = saveData.rotaAtual
@@ -152,22 +152,22 @@ function loadGame()
         else
             rotaAtual = nil
         end
-        
+
         -- Restaura o background
         if saveData.bg_atual_key and fundos[saveData.bg_atual_key] then
             bg_atual = fundos[saveData.bg_atual_key]
         end
-        
+
         -- Restaura estado de menu
         exibirMenu = saveData.exibirMenu or false
         opcaoSelecionada = saveData.opcaoSelecionada or 1
         interacaoAtual = nil  -- Será recriado abaixo se necessário
-        
+
         -- Se exibirMenu estava true, precisamos recriar a interação
         if exibirMenu then
             -- Primeiro verifica interações globais
             local interacao = interacoes[indice]
-            
+
             -- Se estiver em uma rota, verifica interações específicas da rota (tem prioridade)
             local currentChapter = chapters[currentChapterIndex]
             if rotaAtual and currentChapter.interacoes_por_rota and currentChapter.interacoes_por_rota[rotaAtual] then
@@ -175,7 +175,7 @@ function loadGame()
                     interacao = currentChapter.interacoes_por_rota[rotaAtual][indice]
                 end
             end
-            
+
             -- Se encontrou a interação, restaura ela
             if interacao then
                 interacaoAtual = interacao
@@ -184,19 +184,19 @@ function loadGame()
                 exibirMenu = false
             end
         end
-        
+
         print("Jogo carregado com sucesso!")
         print("Capítulo: " .. currentChapterIndex .. ", Diálogo: " .. indice)
         if exibirMenu and interacaoAtual then
             print("Menu de escolha restaurado com " .. #interacaoAtual.opcoes .. " opções")
         end
-        
+
         -- Muda para o estado de jogo
         gameState = "playing"
-        
+
         return true
     end
-    
+
     return false
 end
 
@@ -245,6 +245,8 @@ function love.load()
     kimiko_biquini = love.graphics.newImage("assets/KimikoBiquini.png")
     kimiko_biquini_smirk = love.graphics.newImage("assets/KimikoBiquiniSmirk.png")
 
+    sayuri = love.graphics.newImage("assets/Sayuri.png")
+
     mio = love.graphics.newImage("assets/Mio.png")
     iroha_tachibana = love.graphics.newImage("assets/IrohaTachibana.png")
     kaede = love.graphics.newImage("assets/Kaede.png")
@@ -263,7 +265,8 @@ function love.load()
         ["Iroha Tachibana"] = iroha_tachibana,
         ["Kaede"] = kaede,
         ["Naomi"] = naomi,
-        ["Hanako"] = hanako
+        ["Hanako"] = hanako,
+        ["Sayuri"] = sayuri,
     }
 
     fonte = love.graphics.newFont(24)
